@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="260" height="64" role="img" aria-label="VARIS">
+  <title>VARIS logo (dark background)</title>
+  <!-- ◤◢ 심볼 — 텍스트 글리프가 아니라 도형이므로 폰트 없이 렌더된다 -->
+  <g fill="#e9a23c">
+    <path d="M2 20 L24 20 L2 42 Z"/>
+    <path d="M28 42 L50 42 L50 20 Z"/>
+  </g>
+  <!-- 워드마크 — 브랜드 폰트(Inter/Pretendard) 필요. 없으면 시스템 산세리프로 대체된다 -->
+  <text x="66" y="44" fill="#FAFAF8"
+        font-family="Inter, Pretendard, 'Apple SD Gothic Neo', system-ui, sans-serif"
+        font-size="38" font-weight="800" letter-spacing="-1.2">VARIS</text>
+</svg>
