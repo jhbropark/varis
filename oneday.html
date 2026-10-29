@@ -157,19 +157,20 @@ h2 em{font-style:normal;color:var(--accent)}
         <input type="hidden" name="utm_content" id="f_utm_content" />
         <input type="hidden" name="landing_url" id="f_landing" />
         <input type="hidden" name="referrer" id="f_referrer" />
+        <input type="text" name="website" id="f_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;height:0" aria-hidden="true" />
 
         <div class="field">
           <label for="f_name">이름 <span>*</span></label>
-          <input id="f_name" name="name" placeholder="홍길동" required maxlength="20" />
+          <input id="f_name" name="name" placeholder="홍길동" required maxlength="20" autocomplete="name" aria-required="true" />
         </div>
         <div class="field">
           <label for="f_phone">연락처 <span>*</span></label>
-          <input id="f_phone" name="phone" type="tel" placeholder="010-0000-0000" required maxlength="20" />
+          <input id="f_phone" name="phone" type="tel" placeholder="010-0000-0000" required maxlength="20" autocomplete="tel" inputmode="numeric" aria-required="true" />
           <p class="hint">SMS로 세미나 안내를 드립니다. 하이픈 없이 입력해도 됩니다.</p>
         </div>
         <div class="field">
           <label for="f_email">이메일</label>
-          <input id="f_email" name="email" type="email" placeholder="name@example.com" maxlength="80" />
+          <input id="f_email" name="email" type="email" placeholder="name@example.com" maxlength="80" autocomplete="email" inputmode="email" />
         </div>
         <div class="field">
           <label for="f_date">희망 일정 <span>*</span></label>
@@ -210,10 +211,10 @@ h2 em{font-style:normal;color:var(--accent)}
       <div class="staff" id="staffBox">
         <h4>직원용 · 링크 생성기</h4>
         <div class="grid2" style="margin-top:0;gap:10px">
-          <div class="field" style="margin:0"><label>ref (추천인/담당자)</label><input id="g_ref" placeholder="예: junhyuk" maxlength="30" /></div>
-          <div class="field" style="margin:0"><label>utm_source</label><input id="g_source" placeholder="instagram / youtube / kakao" maxlength="30" /></div>
-          <div class="field" style="margin:0"><label>utm_campaign</label><input id="g_campaign" placeholder="oneday_1129" maxlength="30" /></div>
-          <div class="field" style="margin:0"><label>utm_content</label><input id="g_content" placeholder="reels / story (선택)" maxlength="30" /></div>
+          <div class="field" style="margin:0"><label>ref (추천인/담당자)</label><input id="g_ref" placeholder="예: junhyuk" maxlength="50" /></div>
+          <div class="field" style="margin:0"><label>utm_source</label><input id="g_source" placeholder="instagram / youtube / kakao" maxlength="50" /></div>
+          <div class="field" style="margin:0"><label>utm_campaign</label><input id="g_campaign" placeholder="oneday_1129" maxlength="50" /></div>
+          <div class="field" style="margin:0"><label>utm_content</label><input id="g_content" placeholder="reels / story (선택)" maxlength="50" /></div>
         </div>
         <div class="linkbox">
           <input id="genLink" readonly placeholder="위 값을 입력하면 링크가 생성됩니다" />
