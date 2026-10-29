@@ -8,6 +8,17 @@ function json(res, status, body){
   res.end(JSON.stringify(body));
 }
 
+const RATE = new Map(); // ip -> timestamps (per-instance rate limit)
+function checkRate(req){
+  const ip = (req.headers['x-forwarded-for']||req.headers['x-real-ip']||'').split(',')[0].trim() || req.socket?.remoteAddress || 'unknown';
+  const now = Date.now();
+  const arr = (RATE.get(ip)||[]).filter(t=> now - t < 60000);
+  arr.push(now);
+  RATE.set(ip, arr);
+  if(RATE.size>500) RATE.clear();
+  return arr.length <= 8; // 1분에 8회까지
+}
+
 function safe(v, max){
   if(v==null) return '';
   const s=String(v).trim();
@@ -15,14 +26,20 @@ function safe(v, max){
 }
 
 export default async function handler(req, res){
+  res.setHeader('Access-Control-Allow-Origin','https://varis.kr');
+  res.setHeader('Access-Control-Allow-Methods','POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers','Content-Type');
+  if(req.method === 'OPTIONS') return json(res, 204, {});
   if(req.method !== 'POST'){
     res.setHeader('Allow','POST');
     return json(res, 405, {ok:false, reason:'method_not_allowed'});
   }
+  if(!checkRate(req)) return json(res,429,{ok:false,reason:'rate_limited'});
   let body={};
   try{
     body = typeof req.body==='object' ? req.body : JSON.parse(req.body||'{}');
   }catch{ return json(res,400,{ok:false,reason:'invalid_json'}); }
+  if(body.website || body.url || body.honeypot) return json(res,200,{ok:true, id:'honeypot', share_url:'https://varis.kr/oneday', crm_forwarded:false}); // honeypot
 
   const name = safe(body.name, 20);
   const phoneRaw = safe(body.phone, 20);
@@ -31,11 +48,11 @@ export default async function handler(req, res){
   const desired_date = safe(body.desired_date, 20);
   const motive = safe(body.motive, 500);
   const inflow_path = safe(body.inflow_path, 30);
-  const ref = safe(body.ref, 30);
-  const utm_source = safe(body.utm_source, 40);
-  const utm_medium = safe(body.utm_medium, 40);
-  const utm_campaign = safe(body.utm_campaign, 40);
-  const utm_content = safe(body.utm_content, 40);
+  const ref = safe(body.ref, 50);
+  const utm_source = safe(body.utm_source, 50);
+  const utm_medium = safe(body.utm_medium, 50);
+  const utm_campaign = safe(body.utm_campaign, 50);
+  const utm_content = safe(body.utm_content, 50);
   const landing_url = safe(body.landing_url, 500);
   const referrer = safe(body.referrer, 500);
 
