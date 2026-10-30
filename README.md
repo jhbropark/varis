@@ -39,3 +39,5 @@ curl -s -X POST https://varis.kr/api/kakaopay-ready \
 ```bash
 vercel --prod
 ```
+
+<!-- deploy trigger 2026-10-30 18:40 -->
