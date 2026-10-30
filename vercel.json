@@ -1,8 +1,12 @@
 {
   "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
     { "source": "/oneday", "destination": "/oneday.html" },
-    { "source": "/partners", "destination": "/partners.html" },
-    { "source": "/en/partners", "destination": "/partners.html" }
+    { "source": "/partners", "destination": "/partners.html" }
+  ],
+  "redirects": [
+    { "source": "/en/partners/:path*", "destination": "/partners", "permanent": false },
+    { "source": "/en/partners", "destination": "/partners", "permanent": false }
   ]
 }
