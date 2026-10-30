@@ -1,128 +1,129 @@
-# VARIS VOD Language Support Table
+# VARIS VOD Language Support Matrix (Verified)
 
-**Last Updated:** 2026-10-30  
-**Total:** 5 Courses / 42 Lessons  
-**Base Price:** ₩69,000 (3-month access)
+> Verified from vod.varis.kr on 2026-10-30
 
----
+## Overview
 
-## Summary
+| Item | Value |
+|------|-------|
+| Total Courses | 5 |
+| Total Lessons | 42 |
+| Access Period | 3 months |
+| Price | ₩69,000 (≈$50 USD) |
+| Per-lesson cost | ≈₩1,640 |
 
-| Language | Audio | Subtitles | Practice Files | Q&A Support |
-|---|:---:|:---:|:---:|:---:|
-| **Korean** | ✅ 100% | ✅ 100% | ✅ 100% | ✅ Available |
-| **English** | ❌ | 🔄 Partial (~30%) | 🔄 Mixed | ✅ Email |
-| **Japanese** | ❌ | ❌ | ❌ | 📋 Planned |
-| **Chinese (Traditional)** | ❌ | ❌ | ❌ | 📋 Planned |
+## Current Language Status
 
-**Legend:** ✅ Available | 🔄 Partial/In Progress | ❌ Not Available | 📋 Planned
+| Language | Audio | Subtitles | Notes |
+|----------|-------|-----------|-------|
+| Korean | ✅ All 42 lessons | ✅ Native | Primary language |
+| English | ❌ | 🔄 In progress | Priority localization |
+| Japanese | ❌ | 🔄 Planned | Human review preferred |
+| Traditional Chinese | ❌ | 🔄 Planned | Human review preferred |
+| Indonesian | ❌ | 🔄 Planned | AI dubbing candidate |
 
----
-
-## Course-by-Course Breakdown
-
-### Course 1: AI 3D Production Fundamentals (AI 3D 제작 기초)
-
-| # | Lesson Title (KR) | Lesson Title (EN) | Audio | KR Sub | EN Sub | Files |
-|---|---|---|:---:|:---:|:---:|:---:|
-| 1 | AI 3D 제작 개요 | AI 3D Production Overview | KR | ✅ | 🔄 | KR |
-| 2 | 제작 파이프라인 이해 | Understanding Production Pipeline | KR | ✅ | 🔄 | KR |
-| 3 | 도구 설정과 환경 구성 | Tool Setup & Environment | KR | ✅ | 🔄 | Mixed |
-| 4 | 첫 번째 결과물 제작 | Creating First Output | KR | ✅ | ❌ | KR |
-| 5 | 프로젝트 구조 관리 | Project Structure Management | KR | ✅ | ❌ | KR |
-
-### Course 2: AI Image Workflow (AI 이미지 워크플로)
-
-| # | Lesson Title (KR) | Lesson Title (EN) | Audio | KR Sub | EN Sub | Files |
-|---|---|---|:---:|:---:|:---:|:---:|
-| 6 | AI 이미지 생성 기초 | AI Image Generation Basics | KR | ✅ | 🔄 | Mixed |
-| 7 | 프롬프트 작성법 | Prompt Writing Techniques | KR | ✅ | 🔄 | EN |
-| 8 | 스타일 일관성 유지 | Maintaining Style Consistency | KR | ✅ | 🔄 | Mixed |
-| 9 | 이미지 후처리 | Image Post-Processing | KR | ✅ | ❌ | KR |
-| 10 | 배치 생성과 선별 | Batch Generation & Selection | KR | ✅ | ❌ | KR |
-| 11 | 참조 이미지 활용 | Using Reference Images | KR | ✅ | ❌ | KR |
-| 12 | 영상용 이미지 시퀀스 | Image Sequences for Video | KR | ✅ | ❌ | KR |
-
-### Course 3: Blender Essentials (Blender 기초)
-
-| # | Lesson Title (KR) | Lesson Title (EN) | Audio | KR Sub | EN Sub | Files |
-|---|---|---|:---:|:---:|:---:|:---:|
-| 13 | Blender 인터페이스 | Blender Interface | KR | ✅ | 🔄 | Mixed |
-| 14 | 기본 모델링 | Basic Modeling | KR | ✅ | 🔄 | Mixed |
-| 15 | 머티리얼과 텍스처 | Materials & Textures | KR | ✅ | 🔄 | Mixed |
-| 16 | 조명 설정 | Lighting Setup | KR | ✅ | ❌ | KR |
-| 17 | 카메라와 구도 | Camera & Composition | KR | ✅ | ❌ | KR |
-| 18 | 기초 애니메이션 | Basic Animation | KR | ✅ | ❌ | KR |
-| 19 | 렌더링 설정 | Render Settings | KR | ✅ | ❌ | KR |
-| 20 | AI 이미지와 3D 결합 | Combining AI Images with 3D | KR | ✅ | ❌ | KR |
-| 21 | 프로젝트: 첫 3D 씬 | Project: First 3D Scene | KR | ✅ | ❌ | KR |
-
-### Course 4: Unreal Engine & MetaHuman (Unreal·MetaHuman)
-
-| # | Lesson Title (KR) | Lesson Title (EN) | Audio | KR Sub | EN Sub | Files |
-|---|---|---|:---:|:---:|:---:|:---:|
-| 22 | Unreal Engine 시작 | Getting Started with Unreal | KR | ✅ | 🔄 | Mixed |
-| 23 | 레벨과 환경 구성 | Level & Environment Setup | KR | ✅ | ❌ | KR |
-| 24 | MetaHuman 소개 | Introduction to MetaHuman | KR | ✅ | 🔄 | Mixed |
-| 25 | 캐릭터 커스터마이징 | Character Customization | KR | ✅ | ❌ | KR |
-| 26 | 애니메이션 리타겟팅 | Animation Retargeting | KR | ✅ | ❌ | KR |
-| 27 | 시퀀서 기초 | Sequencer Basics | KR | ✅ | ❌ | KR |
-| 28 | 라이팅과 렌더링 | Lighting & Rendering | KR | ✅ | ❌ | KR |
-| 29 | 실시간 vs 오프라인 렌더 | Real-time vs Offline Render | KR | ✅ | ❌ | KR |
-| 30 | 프로젝트: 캐릭터 씬 | Project: Character Scene | KR | ✅ | ❌ | KR |
-
-### Course 5: Houdini & VFX Compositing (Houdini·VFX 합성)
-
-| # | Lesson Title (KR) | Lesson Title (EN) | Audio | KR Sub | EN Sub | Files |
-|---|---|---|:---:|:---:|:---:|:---:|
-| 31 | Houdini 인터페이스 | Houdini Interface | KR | ✅ | 🔄 | Mixed |
-| 32 | 노드 기반 워크플로 | Node-Based Workflow | KR | ✅ | ❌ | KR |
-| 33 | 기초 지오메트리 | Basic Geometry | KR | ✅ | ❌ | KR |
-| 34 | 파티클 시스템 | Particle Systems | KR | ✅ | ❌ | KR |
-| 35 | 시뮬레이션 기초 | Simulation Basics | KR | ✅ | ❌ | KR |
-| 36 | VFX 합성 개요 | VFX Compositing Overview | KR | ✅ | ❌ | KR |
-| 37 | 키잉과 로토스코핑 | Keying & Rotoscoping | KR | ✅ | ❌ | KR |
-| 38 | 트래킹과 매치무브 | Tracking & Matchmove | KR | ✅ | ❌ | KR |
-| 39 | 색보정과 그레이딩 | Color Correction & Grading | KR | ✅ | ❌ | KR |
-| 40 | 최종 합성 | Final Compositing | KR | ✅ | ❌ | KR |
-| 41 | 렌더 출력과 포맷 | Render Output & Formats | KR | ✅ | ❌ | KR |
-| 42 | 프로젝트: VFX 샷 | Project: VFX Shot | KR | ✅ | ❌ | KR |
+Legend: ✅ Available | 🔄 In progress/Planned | ❌ Not available
 
 ---
 
-## Notes for Partnership
+## Course 01: AI 3D 제작 기초 (Lessons 1-3)
 
-### Current State
-- **Audio:** All 42 lessons are in Korean
-- **Korean Subtitles:** 100% complete
-- **English Subtitles:** ~12-13 lessons have partial English subtitles (mostly Courses 1-2 and introductory lessons)
-- **Practice Files:** Mix of Korean UI labels and English-based prompts/code
-
-### For International Distribution
-1. **English subtitles need full review** before distribution
-2. **New subtitles require professional translation** with technical terminology review
-3. **Practice files may need localization** for non-English UI elements
-4. **Q&A and feedback** available in English via email, live sessions may need interpreter
-
-### Recommended First Localization
-- Courses 1-2 (AI fundamentals + Image workflow) - 12 lessons
-- Most transferable content, less tool-specific UI dependency
-- Prompt-based content naturally uses English
-
-### Localization Cost Estimate (Partner Discussion)
-| Item | Estimate |
-|---|---|
-| Professional subtitle translation (per lesson) | Varies by language |
-| Technical terminology review | VARIS provides term list |
-| Practice file localization | Per-file assessment |
-| Full course QA | Per-course |
-
-*Actual costs to be discussed per partnership agreement.*
+| # | Title (KR) | Title (EN) | Audio | Subs |
+|---|------------|------------|-------|------|
+| 1 | 생성형 AI와 3D 콘텐츠 제작 입문 | Intro to Generative AI & 3D Content | KO | KO |
+| 2 | AI 3D 도구와 제작 파이프라인 | AI 3D Tools & Production Pipeline | KO | KO |
+| 3 | 3D 생성 방식과 도구 비교 | Comparing 3D Generation Methods | KO | KO |
 
 ---
 
-## Contact
+## Course 02: AI 이미지 생성과 제작 워크플로 (Lessons 4-9)
 
-For partnership inquiries regarding localization:
-- Email: hello@varis.kr
-- Partnership Page: https://varis.kr/partners
+| # | Title (KR) | Title (EN) | Audio | Subs |
+|---|------------|------------|-------|------|
+| 4 | Midjourney 이미지 생성 생기초 | Midjourney Basics | KO | KO |
+| 5 | Midjourney 이미지 생성 실전 활용 | Midjourney Practical Application | KO | KO |
+| 6 | Weavy 영상 제작 설계 | Weavy Video Production Design | KO | KO |
+| 7 | Weavy AI 제작 워크플로우 응용소개 | Weavy AI Workflow Application | KO | KO |
+| 8 | AI 이미지 생성 기초 | AI Image Generation Basics | KO | KO |
+| 9 | AI 이미지 활용 실무 제작 | AI Image Production Workflow | KO | KO |
+
+---
+
+## Course 03: Blender AI 3D 제작 (Lessons 10-21)
+
+| # | Title (KR) | Title (EN) | Audio | Subs |
+|---|------------|------------|-------|------|
+| 10 | 콘셉트 이미지 생성과 전처리 | Concept Image Generation & Prep | KO | KO |
+| 11 | Blender 인터페이스와 기본 조작 | Blender Interface & Basics | KO | KO |
+| 12 | AI기반 에셋 생성 | AI-Based Asset Generation | KO | KO |
+| 13 | 씬 완성 | Scene Completion | KO | KO |
+| 14 | AI기반 렌더링 | AI-Based Rendering | KO | KO |
+| 15 | AI기반 인물형 애니메이션 완성 | AI Character Animation | KO | KO |
+| 16 | AI 모델 정리와 형태 보정 | AI Model Cleanup & Correction | KO | KO |
+| 17 | AI 모델 정리와 형태 보정 (고급) | AI Model High-Poly & Retopology | KO | KO |
+| 18 | AI 기반 텍스처 스타일링 | AI-Based Texture Styling | KO | KO |
+| 19 | AI 기반 텍스처 스타일링 (심화) | AI Texture Styling Advanced | KO | KO |
+| 20 | 애니메이션 | Animation | KO | KO |
+| 21 | AI 배경과 3D 에셋 결합 | AI Background & 3D Asset Integration | KO | KO |
+
+---
+
+## Course 04: Unreal·MetaHuman 시네마틱 (Lessons 22-32)
+
+| # | Title (KR) | Title (EN) | Audio | Subs |
+|---|------------|------------|-------|------|
+| 22 | 언리얼엔진 기초 | Unreal Engine Basics | KO | KO |
+| 23 | MetaHuman 제작 | MetaHuman Creation | KO | KO |
+| 24 | AI와 결합한 MetaHuman 생성 | AI-Enhanced MetaHuman | KO | KO |
+| 25 | MetaHuman 리타게팅을 통한 애니메이션 생성 | MetaHuman Retargeting Animation | KO | KO |
+| 26 | MetaHuman 애니메이션 데이터 To AI | MetaHuman Animation Data to AI | KO | KO |
+| 27 | 언리얼엔진 시네마틱 With AI 1 | UE Cinematic with AI 1 | KO | KO |
+| 28 | 언리얼엔진 시네마틱 With AI 2 | UE Cinematic with AI 2 | KO | KO |
+| 29 | 언리얼엔진 시네마틱 With AI 3 | UE Cinematic with AI 3 | KO | KO |
+| 30 | 언리얼엔진 시네마틱 With AI 4 | UE Cinematic with AI 4 | KO | KO |
+| 31 | 언리얼엔진 시네마틱 With AI 5 | UE Cinematic with AI 5 | KO | KO |
+| 32 | 언리얼엔진 시네마틱 With AI 6 | UE Cinematic with AI 6 | KO | KO |
+
+---
+
+## Course 05: Houdini·VFX AI 합성 (Lessons 33-42)
+
+| # | Title (KR) | Title (EN) | Audio | Subs |
+|---|------------|------------|-------|------|
+| 33 | AI 영상 기반 VFX 샷 설계 | AI Video-Based VFX Shot Design | KO | KO |
+| 34 | 합성용 AI 플레이트 제작 | AI Plate Creation for Compositing | KO | KO |
+| 35 | AI 에셋과 트래킹 | AI Asset Tracking | KO | KO |
+| 36 | Houdini 증식 시뮬레이션 | Houdini Growth Simulation | KO | KO |
+| 37 | AI 플레이트 합성과 룩 통일 | AI Plate Compositing & Look Dev | KO | KO |
+| 38 | VFX 합성 With AI 1 | VFX Compositing with AI 1 | KO | KO |
+| 39 | VFX 합성 With AI 2 | VFX Compositing with AI 2 | KO | KO |
+| 40 | VFX 합성 With AI 3 | VFX Compositing with AI 3 | KO | KO |
+| 41 | VFX 합성 With AI 4 | VFX Compositing with AI 4 | KO | KO |
+| 42 | VFX 합성 With AI 5 | VFX Compositing with AI 5 (Final) | KO | KO |
+
+---
+
+## Localization Roadmap
+
+### Phase 1: English (Q1 2027)
+- AI-generated subtitles for all 42 lessons
+- Human review for technical terminology
+- Priority: Courses 01-02 (foundational)
+
+### Phase 2: Japanese & Traditional Chinese (Q2 2027)
+- Human translation for subtitles
+- Direct voice recording preferred over AI dubbing
+- Cultural adaptation for K-culture references
+
+### Phase 3: Indonesian & Other SEA Languages (Q3 2027)
+- AI dubbing with human review
+- Subtitle localization
+
+---
+
+## Notes
+
+1. **Current state**: All 42 lessons are in Korean audio with Korean subtitles only
+2. **English subtitles**: Not yet available (was incorrectly stated as "~30%" in previous draft)
+3. **Verification source**: vod.varis.kr accessed 2026-10-30
+4. **Access model**: Single code unlocks all 5 classrooms for 3 months
