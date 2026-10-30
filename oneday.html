@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VARIS 원데이 세미나 — 하루 만에 AI Graphics 첫 작품 만들기 | VARIS</title>
-<meta name="description" content="VARIS 원데이 세미나. 서울 상암 DDMC에서 3시간 만에 AI 3D 첫 장면을 완성합니다. 선착순 20명, 무료. 다음 세미나는 11월 29일(토) 13:00." />
+<meta name="description" content="VARIS 원데이 세미나. 서울 상암 DDMC에서 3시간 만에 AI 3D 첫 장면을 완성합니다. 선착순 20명, 무료. 다음 세미나는 11월 21일(토) 13:00." />
 <link rel="canonical" href="https://varis.kr/oneday" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="VARIS 원데이 세미나 — AI Graphics 첫 작품" />
@@ -90,14 +90,14 @@ h2 em{font-style:normal;color:var(--accent)}
 
 <section class="hero">
   <div class="wrap">
-    <span class="badge">● 11월 29일(토) 13:00 · 서울 상암 DDMC 3층 · 선착순 20명</span>
+    <span class="badge">● 11월 21일(토) 13:00 · 서울 상암 DDMC 3층 · 선착순 20명</span>
     <h1>원데이 세미나<br><em>하루 만에</em> AI Graphics<br>첫 장면을 완성하세요.</h1>
     <p class="lead">AI 3D 기초부터 실습까지 3시간 집중. 노트북만 가져오세요. 상암 스튜디오에서 현업 파이프라인 그대로 경험합니다.</p>
     <div class="hero-cta">
       <a href="#apply" class="btn btn-accent">원데이 신청하기 →</a>
     </div>
     <div class="kv">
-      <span><b>일시</b> 2026-11-29(토) 13:00–16:00</span>
+      <span><b>일시</b> 2026-11-21(토) 13:00–16:00</span>
       <span><b>장소</b> 서울 상암 DDMC</span>
       <span><b>참가비</b> 무료 · 선착순</span>
       <span><b>준비물</b> 노트북</span>
@@ -137,15 +137,6 @@ h2 em{font-style:normal;color:var(--accent)}
     <p class="lead" style="text-align:center;margin:8px auto 22px">신청 정보를 남겨주시면 세미나 일정과 참여 안내를 확인해 드립니다.</p>
 
     <div class="form-wrap">
-      <!-- 링크 생성/공유 박스 -->
-      <div id="linkBox" class="notice muted">
-        <b style="color:var(--ink)">신청 링크</b><br>
-        <span id="currentLink" style="font-family:var(--mono);font-size:12.5px;word-break:break-all">https://varis.kr/oneday</span>
-        <div class="linkbox">
-          <input id="linkInput" readonly value="https://varis.kr/oneday" />
-          <button type="button" class="btn btn-outline" id="copyLinkBtn2">복사</button>
-        </div>
-      </div>
 
       <form id="applyForm" novalidate>
         <input type="hidden" name="ref" id="f_ref" />
@@ -174,7 +165,7 @@ h2 em{font-style:normal;color:var(--accent)}
           <label for="f_date">희망 일정 <span>*</span></label>
           <select id="f_date" name="desired_date" required>
             <option value="">선택하세요</option>
-            <option value="2026-11-29">2026-11-29(토) 13:00 — 상암 DDMC</option>
+            <option value="2026-11-21">2026-11-21(토) 13:00 — 상암 DDMC</option>
             <option value="2026-12-13">2026-12-13(토) 13:00 — 상암 DDMC</option>
             <option value="online">온라인 참여 희망 — 일정 별도 안내</option>
           </select>
@@ -236,29 +227,17 @@ try{
   sessionStorage.setItem('varis_ref', ref || stored.ref || '');
 }catch(e){}
 
-// 현재 링크 표시
-const base = 'https://varis.kr/oneday';
-const current = location.href;
-$('#currentLink').textContent = current;
-$('#linkInput').value = current;
 document.getElementById('f_ref').value = ref;
 document.getElementById('f_utm_source').value = utm.source;
 document.getElementById('f_utm_medium').value = utm.medium;
 document.getElementById('f_utm_campaign').value = utm.campaign;
 document.getElementById('f_utm_content').value = utm.content;
 document.getElementById('f_landing').value = location.href;
-document.getElementById('f_referrer').value = document.referrer || '';
+document.getElementById('f_referrer').value = document.referrer || "";
 
-// 링크 복사
-function copyText(v){
-  if(navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(v);
-  const ta=document.createElement('textarea'); ta.value=v; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); return Promise.resolve();
-}
 function notify(el, msg, ok){
   el.style.display='block'; el.className='notice '+(ok?'ok':'err'); el.textContent=msg;
 }
-document.getElementById('copyLinkBtn2').addEventListener('click', ()=> copyText($('#linkInput').value).then(()=> notify($('#formMsg'), '복사했습니다.', true)));
-
 
 // 폼 제출 -> /api/oneday-apply
 const form=$('#applyForm');
@@ -291,11 +270,7 @@ form.addEventListener('submit', async (e)=>{
     const r=await fetch('/api/oneday-apply', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
     const j=await r.json().catch(()=>({}));
     if(!r.ok || !j.ok){ throw new Error(j.reason || '신청에 실패했습니다. 잠시 후 다시 시도해 주세요.'); }
-    const share = j.share_url || base + '?applied=' + (j.id||'');
-    notify(msg, '신청이 접수되었습니다! 확인 링크: '+ share + ' — 이 링크를 지인에게 공유할 수 있습니다. 문자/이메일로도 안내를 보내드립니다.', true);
-    // 링크 박스 갱신
-    $('#linkInput').value = share;
-    $('#currentLink').textContent = share;
+    notify(msg, '신청이 접수되었습니다. 확인 이메일과 문자로 안내드립니다.', true);
     form.reset();
     // ref 유지
     $('#f_ref').value = ref;
