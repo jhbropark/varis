@@ -1,5 +1,8 @@
 {
+  "cleanUrls": true,
   "rewrites": [
-    { "source": "/oneday", "destination": "/oneday.html" }
+    { "source": "/oneday", "destination": "/oneday.html" },
+    { "source": "/partners", "destination": "/partners.html" },
+    { "source": "/en/partners", "destination": "/partners.html" }
   ]
 }
