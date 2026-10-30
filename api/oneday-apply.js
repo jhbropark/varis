@@ -98,14 +98,32 @@ export default async function handler(req, res){
     }catch(e){ crmOk=false; }
   }
 
-  // Formspree 폴백 (기존 varis.kr과 동일 엔드포인트 사용 시)
-  const formspree = process.env.FORMSPREE_ONEDAY || process.env.FORMSPREE_ID;
-  if(!crmOk && formspree){
+  // 전용 Formspree 폼으로 항상 전달한다. 이 폼의 Workflow가 Slack #db-lead로 알림을 보낸다.
+  // 환경변수가 있으면 교체할 수 있지만, 기본값은 원데이 전용 폼이다.
+  const formspree = process.env.FORMSPREE_ONEDAY || 'xkjjvzgk';
+  let formspreeOk = false;
+  if(formspree){
     try{
-      await fetch(`https://formspree.io/f/${formspree}`,{
+      const fr = await fetch(`https://formspree.io/f/${formspree}`,{
         method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({name, phone:phoneRaw, email, desired_date, motive, ref, utm_source, utm_campaign, landing_url, _subject:`[VARIS 원데이] ${name} / ${desired_date} ${ref?'ref:'+ref:''}`})
+        body: JSON.stringify({
+          name,
+          phone: phoneRaw,
+          email,
+          desired_date,
+          motive,
+          inflow_path,
+          ref,
+          utm_source,
+          utm_medium,
+          utm_campaign,
+          utm_content,
+          landing_url,
+          referrer,
+          _subject:`[VARIS 원데이 신청] ${name} / ${desired_date}`
+        })
       });
+      formspreeOk = fr.ok;
     }catch{}
   }
 
