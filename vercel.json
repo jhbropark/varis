@@ -1,6 +1,8 @@
 {
   "cleanUrls": true,
   "redirects": [
+    { "source": "/insight", "destination": "https://insight.varis.kr/", "permanent": false },
+    { "source": "/insight/", "destination": "https://insight.varis.kr/", "permanent": false },
     { "source": "/consult", "destination": "/#apply", "permanent": false },
     { "source": "/consult/", "destination": "/#apply", "permanent": false }
   ],
