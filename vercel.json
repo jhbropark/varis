@@ -1,5 +1,9 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/consult", "destination": "/#apply", "permanent": false },
+    { "source": "/consult/", "destination": "/#apply", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/oneday", "destination": "/oneday.html" },
     { "source": "/partners", "destination": "/partners.html" },
