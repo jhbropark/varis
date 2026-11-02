@@ -19,9 +19,9 @@
 
 ## 과정 경로
 
-- [AI 미디어아트, 첫 한 편](https://vod.varis.kr/): 4주 자기주도 VOD
+- [AI 3D 제작 VOD 5개 과정](https://vod.varis.kr/): 42차시 · 3개월 이용
 - [VARIS AI](https://ai.varis.kr/): AI 영상 도구 실무 교육
-- [전문가 과정](https://pro.varis.kr/): 6개월 이머시브 미디어아트·테크 과정
+- [전문가 과정](https://pro.varis.kr/): 6개월 AI Graphics·테크 전문가 과정
 - [Houdini 멘토링](https://houdini.varis.kr/): 소수정예 그룹·1:1 제작 멘토링
 - [VARIS Insight](https://insight.varis.kr/): AI Graphics·3D 제작 가이드와 도구 리뷰
 
