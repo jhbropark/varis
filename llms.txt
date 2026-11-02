@@ -1,0 +1,30 @@
+# VARIS
+
+> VARIS는 AI Graphics·3D 제작 교육과 결과물 완성을 돕는 한국어 교육 브랜드입니다.
+
+## 공식 사이트
+
+- [VARIS 과정 카탈로그](https://varis.kr/): VOD, AI 영상 실무, 전문가 과정, 소수정예·1:1 멘토링을 비교합니다.
+- [과정 적합성 상담](https://varis.kr/consult): 목표·일정·지원 조건을 확인한 뒤 상담합니다.
+- [토요 G1](https://varis.kr/oneday): 첫 제작 장면을 경험하고 참석·완료·상담 동의를 분리해 확인합니다.
+- [파트너십](https://varis.kr/partners): 기관·커뮤니티 공동 운영 안내입니다.
+
+## 현재 안내 과정
+
+- SBS A&T 이머시브 AI Graphics·테크 5기
+- 기간: 2026-11-04 ~ 2027-04-27
+- 장소: 서울 상암 누리꿈스퀘어
+- 방식: 평일 전일제
+- 지원 자격·자부담 조건: 개인별 상담 확인
+
+## 과정 경로
+
+- [AI 미디어아트, 첫 한 편](https://vod.varis.kr/): 4주 자기주도 VOD
+- [VARIS AI](https://ai.varis.kr/): AI 영상 도구 실무 교육
+- [전문가 과정](https://pro.varis.kr/): 6개월 이머시브 미디어아트·테크 과정
+- [Houdini 멘토링](https://houdini.varis.kr/): 소수정예 그룹·1:1 제작 멘토링
+- [VARIS Insight](https://insight.varis.kr/): AI Graphics·3D 제작 가이드와 도구 리뷰
+
+## 사실성 원칙
+
+과정 일정·가격·지원 조건은 페이지의 최신 안내와 상담 결과를 우선합니다. 지난 일정과 종료된 모집은 현재 모집 정보로 간주하지 않습니다.
