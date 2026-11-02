@@ -3,17 +3,65 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>VARIS — 미디어아트 아카데미 | 입문 VOD부터 1:1 멘토링까지 한 페이지</title>
-<meta name="description" content="VARIS의 모든 과정을 한 페이지에. 4주 입문 VOD, AI 영상 도구 30개, 6개월 전문가 과정, 소수정예 그룹·1:1 제작 멘토링 — 30초 진단으로 나에게 맞는 길을 찾으세요. 서울 상암 DDMC." />
+<title>VARIS — AI Graphics·3D 제작 교육 | VOD·실무·전문가 과정</title>
+<meta name="description" content="AI Graphics·3D 제작을 시작하는 사람을 위한 VARIS. 4주 입문 VOD, AI 영상 도구 실무, 6개월 전문가 과정, 소수정예 그룹·1:1 멘토링과 SBS A&T 5기 정보를 확인하세요. 서울 상암 DDMC." />
 <link rel="canonical" href="https://varis.kr/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="VARIS" />
-<meta property="og:title" content="VARIS — 미디어아트 아카데미" />
-<meta property="og:description" content="입문 VOD부터 6개월 전문가 과정, 1:1 제작 멘토링까지 — 한 페이지에서 비교하고 선택하세요." />
+<meta property="og:title" content="VARIS — AI Graphics·3D 제작 교육" />
+<meta property="og:description" content="VOD·AI 영상 실무·6개월 전문가 과정·SBS A&T 5기까지, 지금의 목표에 맞는 제작 경로를 찾으세요." />
 <meta property="og:image" content="https://varis.kr/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":["EducationalOrganization","Organization"],
+      "@id":"https://varis.kr/#organization",
+      "name":"VARIS",
+      "alternateName":"배리즈 원격학원",
+      "url":"https://varis.kr/",
+      "logo":"https://varis.kr/og.png",
+      "description":"AI Graphics·3D 제작 교육과 결과물 완성을 돕는 VARIS 교육 브랜드입니다.",
+      "sameAs":["https://insight.varis.kr/","https://ai.varis.kr/","https://start.varis.kr/","https://pro.varis.kr/"]
+    },
+    {
+      "@type":"WebSite",
+      "@id":"https://varis.kr/#website",
+      "url":"https://varis.kr/",
+      "name":"VARIS",
+      "publisher":{"@id":"https://varis.kr/#organization"},
+      "inLanguage":"ko-KR"
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://varis.kr/#webpage",
+      "url":"https://varis.kr/",
+      "name":"VARIS — AI Graphics·3D 제작 교육",
+      "description":"AI Graphics·3D 제작을 시작하는 사람을 위한 VOD·실무·전문가 과정 안내",
+      "isPartOf":{"@id":"https://varis.kr/#website"},
+      "about":{"@id":"https://varis.kr/#organization"},
+      "dateModified":"2026-11-02",
+      "inLanguage":"ko-KR"
+    },
+    {
+      "@type":"ItemList",
+      "@id":"https://varis.kr/#course-list",
+      "name":"VARIS 과정 목록",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"item":{"@type":"Course","name":"AI 미디어아트, 첫 한 편","url":"https://vod.varis.kr/","provider":{"@id":"https://varis.kr/#organization"}}},
+        {"@type":"ListItem","position":2,"item":{"@type":"Course","name":"VARIS AI — AI 영상 도구 실무","url":"https://ai.varis.kr/","provider":{"@id":"https://varis.kr/#organization"}}},
+        {"@type":"ListItem","position":3,"item":{"@type":"Course","name":"SBS A&T 이머시브 AI Graphics·테크 5기","url":"https://varis.kr/consult","provider":{"@id":"https://varis.kr/#organization"},"hasCourseInstance":{"@type":"CourseInstance","courseMode":"onsite","startDate":"2026-11-04","endDate":"2027-04-27","location":{"@type":"Place","name":"상암 누리꿈스퀘어","address":{"@type":"PostalAddress","addressLocality":"서울","addressCountry":"KR"}}}}},
+        {"@type":"ListItem","position":4,"item":{"@type":"Course","name":"Houdini Elite Small Group","url":"https://houdini.varis.kr/","provider":{"@id":"https://varis.kr/#organization"}}},
+        {"@type":"ListItem","position":5,"item":{"@type":"Course","name":"Houdini Premium 1:1","url":"https://houdini.varis.kr/","provider":{"@id":"https://varis.kr/#organization"}}}
+      ]
+    }
+  ]
+}
+</script>
 <style>
 :root{
   --bg:#15171c; --band:#191c22; --card:#20242c; --card2:#252a33;
@@ -358,9 +406,10 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
 <!-- ── HERO ───────────────────────────────────────── -->
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Immersive Media Art Academy · Sangam Seoul</span>
-    <h1>미디어아트,<br /><em>어디서 시작하든.</em></h1>
-    <p>4주 입문 VOD부터 6개월 전문가 과정, 1:1 제작 멘토링까지 — 다섯 갈래 길을 한 페이지에서 비교하고 고르세요.</p>
+    <span class="eyebrow">AI Graphics · 3D 제작 교육 · Sangam Seoul</span>
+    <h1>AI Graphics·3D,<br /><em>어디서 시작하든.</em></h1>
+    <p>4주 입문 VOD부터 AI 영상 실무, 6개월 전문가 과정, 1:1 제작 멘토링까지 — 결과물을 만드는 경로를 비교하고 고르세요.</p>
+    <div class="hero-current" style="margin:24px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:rgba(233,162,60,.08);color:var(--ink2);font-size:14px;line-height:1.55"><strong style="color:var(--accent)">현재 모집</strong> · SBS A&T 이머시브 AI Graphics·테크 5기 · 2026.11.04–2027.04.27 · 상암 누리꿈스퀘어 · 평일 전일제 · <a href="/consult" style="color:var(--accent);text-decoration:underline">과정 적합성 상담 →</a></div>
     <div class="hero-cta">
       <a href="#finder" class="btn btn-accent btn-lg">30초 진단으로 찾기</a>
       <a href="#ladder" class="btn btn-outline btn-lg">전체 과정 한눈에</a>
@@ -1330,3 +1379,5 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
 </body>
 </html>
 
+
+In 1 day
