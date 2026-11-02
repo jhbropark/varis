@@ -19,13 +19,13 @@ const TAX_FREE = true;
 
 // 판매 상품 정의 — 금액은 서버에서만 결정한다(클라이언트가 보낸 금액을 신뢰하지 않음).
 const PRODUCTS = {
-  vod:        { name: 'VARIS · AI 미디어아트 첫 한 편 (4주 VOD)',        amount:  39000 },
+  vod:        { name: 'VARIS · AI GRAPHICS 5개 과정 (42차시 · 3개월)',        amount:  39000 },
   ai_core:    { name: 'VARIS AI · AI 영상 도구 실무 입문 (CORE)',        amount: 149000 },
-  ai_project: { name: 'VARIS AI · 4주 결과물 완성 과정 (PROJECT)',       amount: 390000 },
+  ai_project: { name: 'VARIS AI · 4주 결과물 완성 과정 (PROJECT)',       amount: 690000 },
   coach_1:    { name: 'houdini 온라인 코칭 · 1회 (60~90분)',             amount: 150000 },
   coach_4:    { name: 'houdini 온라인 코칭 · 4회 패키지',                 amount: 500000 },
   elite:      { name: 'houdini Elite Small Group · 6개월 (일시납)',      amount: 1980000 },
-  premium:    { name: 'houdini Premium 1:1 · 6개월 (일시납)',            amount: 3900000 },
+  premium:    { name: 'houdini Premium 1:1 · 6개월 (일시납)',            amount: 6900000 },
 };
 
 function baseUrl(req) {
