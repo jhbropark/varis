@@ -46,7 +46,7 @@ channelKey:'channel-key-REPLACE_ME'
 
 | 상품 ID | 상품명 | 금액 |
 |---|---|---|
-| `vod` | AI 미디어아트 첫 한 편 (4주 VOD) | 39,000원 |
+| `vod` | AI GRAPHICS 5개 과정 (42차시 · 3개월) | 69,000원 |
 | `ai_core` | VARIS AI · 실무 입문 (CORE) | 149,000원 |
 | `ai_project` | VARIS AI · 4주 결과물 완성 (PROJECT) | 390,000원 |
 | `coach_1` | houdini 온라인 코칭 1회 | 150,000원 |
