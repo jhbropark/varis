@@ -81,6 +81,10 @@ table td{color:var(--text)}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent)}
 .form-group textarea{min-height:100px;resize:vertical}
 .form-group select{cursor:pointer}
+.consent{display:flex;align-items:flex-start;gap:10px;color:var(--muted);font-size:13px;line-height:1.5}
+.consent input{margin-top:4px;accent-color:var(--accent)}
+.consent a{color:var(--text);text-decoration:underline}
+.btn:disabled{cursor:wait;opacity:.65}
 .form-submit{margin-top:24px}
 .form-msg{margin-top:12px;font-size:14px;min-height:20px}
 .form-msg.success{color:#4ade80}
@@ -302,12 +306,13 @@ footer a:hover{color:var(--accent)}
           <textarea id="p_message" name="message" placeholder="Tell us about your audience, timeline, or any specific requirements..."></textarea>
         </div>
       </div>
+      <label class="consent"><input type="checkbox" id="p_consent" name="consent" value="yes" required /> <span>I agree to be contacted about this partnership inquiry and have read the <a href="/privacy/">Privacy Policy</a>.</span></label>
       <input type="text" name="website" style="position:absolute;left:-9999px;opacity:0" tabindex="-1" autocomplete="off" />
       <input type="hidden" name="_subject" value="[VARIS Partner Inquiry]" />
       <div class="form-submit">
         <button type="submit" class="btn btn-accent">Send Inquiry</button>
       </div>
-      <div class="form-msg" id="partnerMsg"></div>
+      <div class="form-msg" id="partnerMsg" role="status" aria-live="polite"></div>
     </form>
   </div>
 </section>
@@ -324,58 +329,73 @@ footer a:hover{color:var(--accent)}
 <script>
 const form = document.getElementById('partnerForm');
 const msg = document.getElementById('partnerMsg');
+const submit = form.querySelector('button[type="submit"]');
+const initialButtonLabel = submit.textContent;
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+function showMessage(text, type = '') {
+  msg.textContent = text;
+  msg.className = type ? 'form-msg ' + type : 'form-msg';
+}
+
+function getAttribution() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    ref: params.get('ref') || '',
+    utm_source: params.get('utm_source') || '',
+    utm_medium: params.get('utm_medium') || '',
+    utm_campaign: params.get('utm_campaign') || '',
+    utm_content: params.get('utm_content') || '',
+    landing_url: window.location.href,
+    referrer: document.referrer || '',
+  };
+}
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!form.reportValidity()) {
+    showMessage('Please complete all required fields.', 'error');
+    const invalid = form.querySelector(':invalid');
+    if (invalid) invalid.focus();
+    return;
+  }
+
   const data = Object.fromEntries(new FormData(form));
-  
-  // Honeypot check
-  if(data.website) {
-    msg.textContent = 'Thank you for your inquiry.';
-    msg.className = 'form-msg success';
+  if (data.website) {
+    showMessage('Thank you for your inquiry.', 'success');
     return;
   }
-  
-  // Validation
-  if(!data.name || !data.organization || !data.email || !data.country || !data.org_type) {
-    msg.textContent = 'Please fill in all required fields.';
-    msg.className = 'form-msg error';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    showMessage('Please enter a valid email address.', 'error');
+    document.getElementById('p_email').focus();
     return;
   }
-  
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    msg.textContent = 'Please enter a valid email address.';
-    msg.className = 'form-msg error';
-    return;
-  }
-  
-  msg.textContent = 'Sending...';
-  msg.className = 'form-msg';
-  
+
+  submit.disabled = true;
+  submit.setAttribute('aria-busy', 'true');
+  showMessage('Sending...');
+
   try {
-    // Submit to Formspree
-    const r = await fetch('https://formspree.io/f/mvznljpl', {
+    const response = await fetch('/api/partner-inquiry', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({
-        ...data,
-        _subject: `[VARIS Partner Inquiry] ${data.organization} - ${data.country}`
-      })
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ ...data, ...getAttribution() }),
     });
-    
-    if(r.ok) {
-      msg.textContent = 'Thank you! We will respond within 2 business days.';
-      msg.className = 'form-msg success';
-      form.reset();
-    } else {
-      throw new Error('Submission failed');
-    }
-  } catch(err) {
-    msg.textContent = 'Failed to send. Please email us directly at hello@varis.kr';
-    msg.className = 'form-msg error';
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.reason || 'submission_failed');
+
+    form.reset();
+    showMessage('Thank you! We will respond within 2 business days.', 'success');
+    msg.focus();
+  } catch (error) {
+    showMessage('Failed to send. Please email us directly at hello@varis.kr', 'error');
+  } finally {
+    submit.disabled = false;
+    submit.removeAttribute('aria-busy');
+    submit.textContent = initialButtonLabel;
   }
 });
 </script>
 
 </body>
 </html>
+In 28m
