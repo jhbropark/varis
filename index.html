@@ -112,11 +112,13 @@ header.site{position:sticky;top:0;z-index:60;background:rgba(21,23,28,.86);
 .hdr nav{margin-left:auto;display:flex;gap:20px;font-size:14px;color:var(--ink2)}
 .hdr nav a:hover{color:var(--ink)}
 @media(max-width:900px){.hdr nav{display:none}}
+.mobile-quick{display:none}
+@media(max-width:900px){.mobile-quick{display:flex;gap:8px;overflow-x:auto;padding:8px 18px 10px;border-top:1px solid var(--line-soft);scrollbar-width:none}.mobile-quick::-webkit-scrollbar{display:none}.mobile-quick a{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:var(--ink2);font-size:12px;white-space:nowrap;text-decoration:none}.mobile-quick a:hover,.mobile-quick a:focus-visible{border-color:var(--accent);color:var(--accent)}}
 
 /* hero */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
   background:linear-gradient(90deg,rgba(20,22,27,.9),rgba(20,22,27,.45)),
-    url(https://varis.kr/assets/works/aria-kinetic.webp);
+    url(/assets/works/aria-kinetic.webp);
   background-size:cover;background-position:center}
 .hero .wrap{padding:clamp(56px,10vw,104px) clamp(18px,4vw,36px)}
 .hero h1{font-size:clamp(33px,6vw,58px);font-weight:900;letter-spacing:-.045em;line-height:1.07;
@@ -189,6 +191,8 @@ header.site{position:sticky;top:0;z-index:60;background:rgba(21,23,28,.86);
 #finder .rwhy{font-size:14px;color:var(--ink2);margin:0 0 8px;line-height:1.55}
 #finder .rmeta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);
   font-family:var(--mono);font-variant-numeric:tabular-nums;margin-bottom:16px}
+#finder .r-actions{display:flex;gap:9px;flex-wrap:wrap}
+#finder .r-actions .btn{flex:1 1 210px;text-align:center}
 #finder .alt{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:11px;
   padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 #finder .alab{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
@@ -303,6 +307,20 @@ table.cmp tr:last-child th,table.cmp tr:last-child td{border-bottom:0}
 .wk-tile b{color:#fff;font-weight:800;font-size:16px;letter-spacing:-.01em}
 .wk-tile span{color:var(--ink2);font-size:12px;margin-top:2px}
 
+/* evidence */
+.evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.evidence-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
+.evidence-step{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);font-weight:700}
+.evidence-card h3{font-size:17px;margin:12px 0 8px}
+.evidence-card p{margin:0;color:var(--ink2);font-size:14px;line-height:1.6}
+@media(max-width:760px){.evidence-grid{grid-template-columns:1fr}}
+.student-proof-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px;margin-top:24px}
+.student-proof{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.student-proof img{display:block;width:100%;height:100%;min-height:220px;object-fit:cover}
+.student-proof:first-child img{aspect-ratio:4/3}.student-proof:last-child img{aspect-ratio:3/2}
+.student-proof figcaption{display:flex;flex-direction:column;gap:4px;padding:13px 16px}.student-proof figcaption b{font-size:14px}.student-proof figcaption span{font-size:12px;color:var(--muted)}
+@media(max-width:760px){.student-proof-grid{grid-template-columns:1fr}.student-proof img{min-height:0}}
+
 /* faq */
 .faq details{border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:9px;overflow:hidden}
 .faq summary{cursor:pointer;padding:16px 20px;font-weight:700;font-size:14.5px;list-style:none;
@@ -318,6 +336,7 @@ table.cmp tr:last-child th,table.cmp tr:last-child td{border-bottom:0}
 /* apply */
 .apply-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
 @media(max-width:860px){.apply-grid{grid-template-columns:1fr}}
+.form-note{margin:-8px 0 16px;color:var(--muted);font-size:12.5px;line-height:1.5}
 .apply-points{list-style:none;display:flex;flex-direction:column;gap:9px;margin:20px 0}
 .apply-points li{position:relative;padding-left:22px;font-size:14.5px;color:var(--ink2)}
 .apply-points li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:800}
@@ -399,6 +418,7 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
     </nav>
     <a href="#apply" class="btn btn-accent btn-sm">상담 신청</a>
   </div>
+  <div class="wrap mobile-quick" aria-label="빠른 메뉴"><a href="#finder">과정 찾기</a><a href="#compare">가격 비교</a><a href="#works">작품</a><a href="#faq">FAQ</a></div>
 </header>
 
 <main id="top">
@@ -415,7 +435,7 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
       <a href="#ladder" class="btn btn-outline btn-lg">전체 과정 한눈에</a>
     </div>
     <div class="hero-stats">
-      <div class="hstat"><div class="n"><em>5</em>개 과정</div><div class="l">₩69,000 ~ 480만</div></div>
+      <div class="hstat"><div class="n"><em>5</em>개 정규 과정</div><div class="l">+ 단회 온라인 코칭 · ₩69,000 ~ 480만</div></div>
       <div class="hstat"><div class="n"><em>4</em>주 ~ <em>6</em>개월</div><div class="l">자기주도부터 밀착까지</div></div>
       <div class="hstat"><div class="n"><em>4</em>명</div><div class="l">소수정예 그룹 정원</div></div>
       <div class="hstat"><div class="n">상암 <em>DDMC</em></div><div class="l">실무 제작 공간 · 온라인 병행</div></div>
@@ -429,7 +449,7 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
     <div class="center">
       <span class="eyebrow">All Courses</span>
       <h2>VARIS 전체 과정</h2>
-      <p class="lead">가볍게 맛보는 입문부터, 대표작을 끝까지 완성하는 1:1 밀착까지. 사다리 한눈에 보고 바로 고르세요.</p>
+      <p class="lead">가볍게 맛보는 입문부터, 대표작을 끝까지 완성하는 1:1 밀착까지. 정규 5개 과정과 단회 온라인 코칭을 한눈에 비교하고 바로 고르세요.</p>
     </div>
     <div class="ladder">
       <div class="lc" style="--rc:var(--c-vod)">
@@ -451,13 +471,13 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
         <span class="tier"><span class="emo">🔷</span> 코호트 · 전문가</span>
         <div class="nm">이머시브 AI Graphics · 테크 전문가 과정</div>
         <p class="ds">6개월·20명 4단계 커리큘럼. 이직·포트폴리오가 목표라면.</p>
-        <span class="pr">6개월 정규과정</span>
+        <span class="pr">총 148만원 · 6개월</span>
         <a class="go" href="#c-pro">과정 보기 →</a>
       </div>
       <div class="lc" style="--rc:var(--c-elite)">
         <span class="tier"><span class="emo">🎓</span> 멘토링 · Elite</span>
         <div class="nm">houdini 제작 멘토링 · Elite Small Group</div>
-        <p class="ds">최대 4명 소그룹 6개월. 작품을 끝까지 완성하는 사람으로.</p>
+        <p class="ds">소그룹 정원 최대 4명 · 6개월. 작품을 끝까지 완성하는 사람으로.</p>
         <span class="pr">월 35만 × 6</span>
         <a class="go" href="#c-elite">과정 보기 →</a>
       </div>
@@ -670,13 +690,13 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
             <li>모집 방식 · 상시모집 (수시 선발)</li>
             <li>교육 장소 · 서울 상암 DDMC</li>
             <li>교육 기간 · 6개월 집중 과정 · 주 5일 일 8시간</li>
-            <li>모집 인원 · 20명 소수 정예 · 1:1 개별 면접</li>
+            <li>모집 인원 · 정원 20명 · 1:1 개별 면접</li>
             <li>지원 대상 · AI Graphics·공간 연출 분야 취업 희망 청년 (전공 무관)</li>
           </ul>
         </div>
       </div>
       <div class="cprice">
-        <div class="pchip hot"><strong>과정</strong><span>6개월 정규과정</span><small>상시모집 · 1:1 개별 면접</small></div>
+        <div class="pchip hot"><strong>과정</strong><span>총 148만원</span><small>6개월 · 상시모집 · 1:1 개별 면접</small></div>
         <div class="pchip"><strong>구성</strong><span>4 STEPS</span><small>20 SEATS · 상암 DDMC</small></div>
       </div>
       <div class="svcterm"><b>서비스 제공 기간</b>
@@ -694,7 +714,7 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
         <span class="ctag">멘토링 · Elite</span>
         <h3>houdini Elite Small Group — 6개월 소수정예 그룹</h3>
       </div>
-      <p class="ccopy">“혼자 하면 멈추지만, 함께 하면 완성합니다.” <b>최대 4명</b>만 함께 진행하는 6개월 실무형 제작 과정.
+      <p class="ccopy">“혼자 하면 멈추지만, 함께 하면 완성합니다.” <b>정원 최대 4명</b>으로 진행하는 6개월 실무형 제작 과정.
         매주 과제·피드백·그룹 크리틱으로 흐지부지되기 쉬운 작업을 끝까지 이어갑니다.
         이 과정의 핵심은 “수강”이 아니라 <b>“완성”</b>입니다.</p>
       <div class="cgrid">
@@ -895,7 +915,7 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
             <td>시작일부터 6개월<br />분할 시 월 1회 × 6회</td></tr>
           <tr><th>가격</th><td>3개월 이용권 ₩69,000<br />(정가 ₩69,000)</td>
             <td>FREE 0원 / CORE 149,000원~<br />PROJECT 390,000원~</td>
-            <td class="hl">6개월 정규과정<br />(상담 시 안내)</td>
+            <td class="hl">6개월 정규과정<br />(총 ₩1,480,000)</td>
             <td>월 35만 × 6<br />(198~240만)</td>
             <td>월 65만 × 6<br />(390~480만)</td></tr>
         </tbody>
@@ -938,6 +958,21 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
 </section>
 
 <!-- ── WORKS ──────────────────────────────────────── -->
+<section id="evidence" class="band">
+  <div class="wrap">
+    <div class="center"><span class="eyebrow">Student Evidence · KDT</span><h2>수료식과 현장 결과를 확인하세요</h2><p class="lead">동의를 확인한 KDT 융합 이머시브 미디어 아트&amp;테크 수료식 기록입니다. 교육 참여와 수료 장면을 보여주는 자료이며, 개별 취업 결과나 작업 전후를 과장하지 않습니다.</p></div>
+    <div class="student-proof-grid">
+      <figure class="student-proof"><img src="/assets/student/kdt-ceremony-stage.jpg" alt="KDT 융합 이머시브 미디어 아트&테크 수료식 현장 사진" loading="lazy" /><figcaption><b>수료식 현장</b><span>KDT 융합 이머시브 미디어 아트&amp;테크</span></figcaption></figure>
+      <figure class="student-proof"><img src="/assets/student/kdt-completion-certificate.jpg" alt="KDT 융합 이머시브 미디어 아트&테크 수료증 전달 사진" loading="lazy" /><figcaption><b>수료 기록</b><span>교육 과정 종료 후 수료증 전달 장면</span></figcaption></figure>
+    </div>
+    <div class="evidence-grid">
+      <article class="evidence-card"><span class="evidence-step">01 · 시작점</span><h3>목표와 현재 작업을 고정</h3><p>상담에서 현재 수준, 만들고 싶은 장면, 참여 가능 시간을 기록해 과정과 기대치를 맞춥니다.</p></article>
+      <article class="evidence-card"><span class="evidence-step">02 · 과정 중</span><h3>주차별 결과물과 피드백</h3><p>콘티, 소스, 장면, 마감처럼 단계별 산출물과 수정 방향을 남깁니다.</p></article>
+      <article class="evidence-card"><span class="evidence-step">03 · 완료 시</span><h3>완성작과 설명 문서</h3><p>대표작, 작업 설명, 포트폴리오 패키지를 묶어 다음 지원과 제안에 사용할 수 있게 정리합니다.</p></article>
+    </div>
+  </div>
+</section>
+
 <section id="works">
   <div class="wrap">
     <div class="center">
@@ -947,19 +982,19 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
     </div>
     <div class="works">
       <a class="wk-tile" href="https://www.behance.net/sia_haus" target="_blank" rel="noopener">
-        <img src="https://varis.kr/assets/works/seoul-pulse.webp" alt="서울의 맥박 — 시공간의 만개" loading="lazy" decoding="async" width="1000" height="1500" />
+        <img src="/assets/works/seoul-pulse.webp" alt="서울의 맥박 — 시공간의 만개" loading="lazy" decoding="async" width="1000" height="1500" />
         <b>서울의 맥박</b><span>시공간의 만개 · 서울의 맥박</span></a>
       <a class="wk-tile" href="https://www.behance.net/sia_haus" target="_blank" rel="noopener">
-        <img src="https://varis.kr/assets/works/aria-kinetic.webp" alt="ARIA — 2025 SWL 키네틱 디스플레이" loading="lazy" decoding="async" width="1400" height="980" />
+        <img src="/assets/works/aria-kinetic.webp" alt="ARIA — 2025 SWL 키네틱 디스플레이" loading="lazy" decoding="async" width="1400" height="980" />
         <b>ARIA</b><span>2025 SWL 키네틱 디스플레이</span></a>
       <a class="wk-tile" href="https://www.behance.net/sia_haus" target="_blank" rel="noopener">
-        <img src="https://varis.kr/assets/works/grand-josan.webp" alt="그랜드 조선 미디어파사드" loading="lazy" decoding="async" width="1400" height="1380" />
+        <img src="/assets/works/grand-josan.webp" alt="그랜드 조선 미디어파사드" loading="lazy" decoding="async" width="1400" height="1380" />
         <b>그랜드 조선</b><span>2025 그랜드조선 미디어파사드</span></a>
       <a class="wk-tile" href="https://www.behance.net/sia_haus" target="_blank" rel="noopener">
-        <img src="https://varis.kr/assets/works/arfa.webp" alt="ARFA — SIAHAUS IP 갤러리 프로젝트" loading="lazy" decoding="async" width="1500" height="1196" />
+        <img src="/assets/works/arfa.webp" alt="ARFA — SIAHAUS IP 갤러리 프로젝트" loading="lazy" decoding="async" width="1500" height="1196" />
         <b>ARFA</b><span>SIAHAUS IP 갤러리 프로젝트</span></a>
       <a class="wk-tile" href="https://www.behance.net/sia_haus" target="_blank" rel="noopener">
-        <img src="https://varis.kr/assets/works/kim-tschang-yeul.webp" alt="김창열 아틀리에" loading="lazy" decoding="async" width="1026" height="1500" />
+        <img src="/assets/works/kim-tschang-yeul.webp" alt="김창열 아틀리에" loading="lazy" decoding="async" width="1026" height="1500" />
         <b>김창열 아틀리에</b><span>2026 Kim Tschang-Yeul Atelier</span></a>
     </div>
   </div>
@@ -1035,6 +1070,7 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
       </div>
       <form class="apply" id="applyForm" action="https://formspree.io/f/mvznljpl" method="POST">
         <h3>수강 · 상담 신청</h3>
+         <p class="form-note">연락처만 남겨도 됩니다. 영업일 기준 1일 내 전화 또는 이메일로 답변드립니다.</p>
         <input type="hidden" name="_subject" value="[VARIS 원페이지] 새 상담 신청" />
         <input type="hidden" name="유입경로" id="f_source" />
         <input type="hidden" name="유입매체" id="f_medium" />
@@ -1045,8 +1081,8 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
           <input id="f-name" name="이름" type="text" required placeholder="홍길동" autocomplete="name" /></div>
         <div class="field"><label for="f-phone">연락처 <i>*</i></label>
           <input id="f-phone" name="연락처" type="tel" required placeholder="010-0000-0000" autocomplete="tel" /></div>
-        <div class="field"><label for="f-email">이메일 <i>*</i></label>
-          <input id="f-email" name="이메일" type="email" required placeholder="you@example.com" autocomplete="email" /></div>
+        <div class="field"><label for="f-email">이메일 <small>(선택)</small></label>
+          <input id="f-email" name="이메일" type="email" placeholder="you@example.com" autocomplete="email" /></div>
         <div class="field"><label for="f-course">관심 과정 <i>*</i></label>
           <select id="f-course" name="관심과정" required>
             <option value="">선택해 주세요</option>
@@ -1194,7 +1230,7 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
              href:'#c-coach', label:'코칭 옵션 보기' },
     pro:   { tier:'코호트 · 전문가', name:'이머시브 AI Graphics · 테크 전문가 과정',
              why:'이직·포트폴리오가 목표라면. 6개월 4단계 커리큘럼으로 기초부터 실무까지.',
-             meta:['형태 · 6개월 · 20명 · 상암 DDMC','가격 · 코호트 정규과정'],
+             meta:['형태 · 6개월 · 정원 20명 · 상암 DDMC','가격 · 총 148만원 · 지원 후 상담'],
              href:'#c-pro', label:'전문가 과정 보기' },
     elite: { tier:'멘토링 · 최다 선택', name:'houdini Elite Small Group',
              why:'작품을 끝까지 완성하고 싶은 분께. 최대 4명 소그룹으로 6개월 밀도 있게.',
@@ -1265,6 +1301,14 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
     });
   }
 
+  function selectApplyCourse(id){
+    var labels={vod:'AI 3D 제작 VOD 5개 과정',ai:'VARIS AI',pro:'전문가 과정',elite:'Elite Small Group',prem:'Premium 1:1',coach:'온라인 코칭'};
+    var sel=document.getElementById('f-course');
+    if(sel && labels[id]){
+      for(var i=0;i<sel.options.length;i++){ if(sel.options[i].textContent.indexOf(labels[id])===0){ sel.selectedIndex=i; break; } }
+    }
+  }
+
   function renderResult(){
     setProgress(QUESTIONS.length);
     backBtn.hidden=true;
@@ -1276,13 +1320,16 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
         + '<div class="rname">'+esc(top.name)+'</div>'
         + '<p class="rwhy">'+esc(top.why)+'</p>'
         + '<div class="rmeta">'+top.meta.map(function(m){return '<span>'+esc(m)+'</span>';}).join('')+'</div>'
-        + '<a class="btn btn-accent" href="'+top.href+'">'+esc(top.label)+' <span aria-hidden="true">↓</span></a>'
+        + '<div class="r-actions"><a class="btn btn-accent" href="'+top.href+'">'+esc(top.label)+' <span aria-hidden="true">↓</span></a>'
+        + '<a class="btn btn-outline finder-consult" href="#apply" data-course-id="'+order[0]+'">이 과정 상담받기</a></div>'
       + '</div>'
       + '<div class="alt"><span class="alab">함께 고려</span>'
         + '<span class="aname">'+esc(alt.name)+'</span>'
         + '<a href="'+alt.href+'">보기 →</a></div>'
       + '<button class="reset" type="button">↺ 다시 진단하기</button>'
       + '</div>';
+    var consult=stage.querySelector('.finder-consult');
+    if(consult) consult.addEventListener('click', function(){ selectApplyCourse(consult.dataset.courseId); });
     stage.querySelector('.reset').addEventListener('click', function(){ answers=[]; renderQuestion(0); });
   }
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VARIS 원데이 세미나 — 하루 만에 AI Graphics 첫 작품 만들기 | VARIS</title>
-<meta name="description" content="VARIS 원데이 세미나. 서울 상암 DDMC에서 3시간 만에 AI 3D 첫 장면을 완성합니다. 선착순 20명, 무료. 다음 세미나는 11월 29일(토) 13:00." />
+<meta name="description" content="VARIS 원데이 세미나. 서울 상암 DDMC에서 3시간 만에 AI 3D 첫 장면을 완성합니다. 정원 20명 · 접수 마감 시 종료, 무료. 다음 세미나는 11월 29일(일) 13:00." />
 <link rel="canonical" href="https://varis.kr/oneday" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="VARIS 원데이 세미나 — AI Graphics 첫 작품" />
@@ -43,7 +43,7 @@ h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:-.04em;line-hei
 h2{font-size:clamp(22px,3.2vw,30px);font-weight:800;letter-spacing:-.03em}
 h2 em{font-style:normal;color:var(--accent)}
 .lead{color:var(--ink2);font-size:clamp(15px,1.8vw,17px);max-width:60ch}
-.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(21,23,28,.92),rgba(21,23,28,.45)),url(https://varis.kr/assets/works/aria-kinetic.webp);background-size:cover;background-position:center}
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(21,23,28,.92),rgba(21,23,28,.45)),url(/assets/works/aria-kinetic.webp);background-size:cover;background-position:center}
 .hero .wrap{padding:clamp(48px,8vw,88px) clamp(18px,4vw,36px)}
 .hero p{margin:16px 0 0;color:var(--ink2);max-width:48ch}
 .hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
@@ -90,7 +90,7 @@ h2 em{font-style:normal;color:var(--accent)}
 
 <section class="hero">
   <div class="wrap">
-    <span class="badge">● 11월 29일(토) 13:00 · 서울 상암 DDMC 3층 · 선착순 20명</span>
+    <span class="badge">● <span data-event-date="next"></span> · 서울 상암 DDMC 3층 · 정원 20명 · 접수 마감 시 종료</span>
     <h1>원데이 세미나<br><em>하루 만에</em> AI Graphics<br>첫 장면을 완성하세요.</h1>
     <p class="lead">AI 3D 기초부터 실습까지 3시간 집중. 노트북만 가져오세요. 상암 스튜디오에서 현업 파이프라인 그대로 경험합니다.</p>
     <div class="hero-cta">
@@ -98,9 +98,9 @@ h2 em{font-style:normal;color:var(--accent)}
       <button type="button" class="btn btn-outline" id="copyLinkBtn">신청 링크 복사</button>
     </div>
     <div class="kv">
-      <span><b>일시</b> 2026-11-29(토) 13:00–16:00</span>
+      <span><b>일시</b> <span data-event-date="2026-11-29" data-event-format="range"></span></span>
       <span><b>장소</b> 서울 상암 DDMC</span>
-      <span><b>참가비</b> 무료 · 선착순</span>
+      <span><b>참가비</b> 무료 · 정원 20명 · 접수 마감 시 종료</span>
       <span><b>준비물</b> 노트북</span>
     </div>
   </div>
@@ -174,12 +174,7 @@ h2 em{font-style:normal;color:var(--accent)}
         </div>
         <div class="field">
           <label for="f_date">희망 일정 <span>*</span></label>
-          <select id="f_date" name="desired_date" required>
-            <option value="">선택하세요</option>
-            <option value="2026-11-29">2026-11-29(토) 13:00 — 상암 DDMC</option>
-            <option value="2026-12-13">2026-12-13(토) 13:00 — 상암 DDMC</option>
-            <option value="online">온라인 참여 희망 — 일정 별도 안내</option>
-          </select>
+          <select id="f_date" name="desired_date" required><option value="">선택하세요</option></select>
         </div>
         <div class="field">
           <label for="f_path">신청 경로</label>
@@ -238,6 +233,18 @@ h2 em{font-style:normal;color:var(--accent)}
 
 <script>
 const $ = s => document.querySelector(s);
+
+// 일정 표기는 이 목록과 포맷터에서만 생성합니다. 화면, 선택 옵션, 공유 링크가 같은 값을 사용합니다.
+const EVENT_DATES = [
+  {date:'2026-11-29', start:'13:00', end:'16:00', venue:'상암 DDMC'},
+  {date:'2026-12-13', start:'13:00', end:'16:00', venue:'상암 DDMC'}
+];
+function eventByDate(iso){ return EVENT_DATES.find(e=>e.date===iso) || EVENT_DATES[0]; }
+function eventWeekday(iso){ return new Intl.DateTimeFormat('ko-KR',{weekday:'short',timeZone:'Asia/Seoul'}).format(new Date(iso+'T12:00:00+09:00')).replace('요일',''); }
+function eventLabel(iso, format='range'){ const e=eventByDate(iso); const d=e.date+'('+eventWeekday(e.date)+')'; return format==='date' ? d : d+' '+e.start+'–'+e.end; }
+document.querySelectorAll('[data-event-date]').forEach(el=>{ const key=el.dataset.eventDate==='next' ? EVENT_DATES[0].date : el.dataset.eventDate; el.textContent=eventLabel(key,el.dataset.eventFormat||'range'); });
+const dateSelect=document.getElementById('f_date');
+if(dateSelect){ EVENT_DATES.forEach(e=>{ const o=document.createElement('option'); o.value=e.date; o.textContent=eventLabel(e.date)+' — '+e.venue; dateSelect.appendChild(o); }); }
 const params = new URLSearchParams(location.search);
 const ref = params.get('ref') || '';
 const utm = {
@@ -260,6 +267,8 @@ try{
 
 // 현재 링크 표시
 const base = 'https://varis.kr/oneday';
+const sharedDate = params.get('date');
+if(sharedDate && EVENT_DATES.some(e=>e.date===sharedDate)){ const linkTitle=document.querySelector('#linkBox b'); if(linkTitle) linkTitle.textContent='신청 링크 · '+eventLabel(sharedDate,'date'); }
 const current = location.href;
 $('#currentLink').textContent = current;
 $('#linkInput').value = current;

@@ -46,6 +46,8 @@ export default async function handler(req, res){
   const phone = phoneRaw.replace(/\D/g,'');
   const email = safe(body.email, 80).toLowerCase();
   const desired_date = safe(body.desired_date, 20);
+  const allowedDates = ['2026-11-29','2026-12-13'];
+  if(!allowedDates.includes(desired_date)) return json(res,400,{ok:false,reason:'invalid_date'});
   const motive = safe(body.motive, 500);
   const inflow_path = safe(body.inflow_path, 30);
   const ref = safe(body.ref, 50);
@@ -62,7 +64,7 @@ export default async function handler(req, res){
   if(!body.consent) return json(res,400,{ok:false,reason:'consent_required'});
 
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7);
-  const share_url = `https://varis.kr/oneday?applied=${encodeURIComponent(id)}${ref?`&ref=${encodeURIComponent(ref)}`:''}`;
+  const share_url = `https://varis.kr/oneday?applied=${encodeURIComponent(id)}&date=${encodeURIComponent(desired_date)}${ref?`&ref=${encodeURIComponent(ref)}`:''}`;
 
   // CRM intake 로 전달 (sign.varis.kr). 환경변수가 없으면 스킵하고 ok로 응답.
   const crmUrl = process.env.CRM_INTAKE_URL || process.env.CRM_API_URL;
@@ -76,7 +78,7 @@ export default async function handler(req, res){
         phone: phoneRaw,
         email: email || undefined,
         name,
-        course_id: 'oneday-2026-11-29',
+        course_id: 'oneday-'+desired_date,
         course_label: `원데이 세미나 ${desired_date}`,
         source: `oneday:${inflow_path||utm_source||'direct'}${ref?' ref:'+ref:''}`,
         purpose: 'consultation',
