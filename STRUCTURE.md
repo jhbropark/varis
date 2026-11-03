@@ -10,9 +10,9 @@
 | 도메인 | 역할 | 티어 |
 |---|---|---|
 | `varis.kr` | 허브 — 진단 + 과정 카탈로그 + 작품 | — |
-| `vod.varis.kr` | AI 미디어아트, 첫 한 편 (4주 VOD) | 입문 / 저가 |
+| `vod.varis.kr` | AI GRAPHICS 5개 과정 (42차시 · 3개월) | 입문 / 저가 |
 | `ai.varis.kr` | VARIS AI — AI 영상 도구 30개 | 입문~중가 |
-| `pro.varis.kr` | 이머시브 미디어아트 & 테크 전문가 과정 (6개월) | 중가 / 코호트 |
+| `pro.varis.kr` | 이머시브 AI GRAPHICS & 테크 전문가 과정 (6개월) | 중가 / 코호트 |
 | `houdini.varis.kr` | 제작 멘토링 (코칭 / Elite / Premium 1:1) | 중가~고가 |
 
 공통 요소: Formspree `mvznljpl` 단일 엔드포인트, `varis@varis.kr`,
