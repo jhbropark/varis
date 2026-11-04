@@ -85,7 +85,7 @@ export async function onRequest(context) {
   if (!name || !organization || !email || !country || !org_type) {
     return json({ ok: false, reason: 'missing_required' }, 400, origin);
   }
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return json({ ok: false, reason: 'invalid_email' }, 400, origin);
   }
   if (body.consent !== 'yes') {
@@ -115,7 +115,7 @@ export async function onRequest(context) {
     message,
     goal: model || interest || 'partnership discussion',
     qa: false,
-    note: '조직 유형: ' + org_type + '\\n관심 모듈: ' + (interest || '-') + '\\n파트너십 모델: ' + (model || '-') + '\\n유입: ' + source + '\\nref: ' + (ref || '-') + '\\nutm: ' + [utm_source, utm_medium, utm_campaign, utm_content].filter(Boolean).join('/') + '\\nlanding: ' + landing_url + '\\nreferrer: ' + referrer,
+    note: '조직 유형: ' + org_type + '\n관심 모듈: ' + (interest || '-') + '\n파트너십 모델: ' + (model || '-') + '\n유입: ' + source + '\nref: ' + (ref || '-') + '\nutm: ' + [utm_source, utm_medium, utm_campaign, utm_content].filter(Boolean).join('/') + '\nlanding: ' + landing_url + '\nreferrer: ' + referrer,
     request_id: id,
   };
 
@@ -124,7 +124,7 @@ export async function onRequest(context) {
   const crmKey = env.CRM_INTAKE_KEY || env.CRM_WORKER_KEY;
   if (crmUrl && crmKey) {
     try {
-      const response = await fetch(crmUrl.replace(/\\/$/, '') + '/api/crm/intake', {
+      const response = await fetch(crmUrl.replace(/\/$/, '') + '/api/crm/intake', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
