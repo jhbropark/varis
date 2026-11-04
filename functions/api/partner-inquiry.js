@@ -12,7 +12,7 @@ function json(body, status = 200, origin = '') {
   if (origin === 'https://varis.kr' || origin === 'https://www.varis.kr') {
     headers.set('Access-Control-Allow-Origin', origin);
   }
-  return new Response(JSON.stringify(body), { status, headers });
+  return new Response(status === 204 ? null : JSON.stringify(body), { status, headers });
 }
 
 function safe(value, max) {
