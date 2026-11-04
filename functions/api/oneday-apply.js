@@ -200,24 +200,8 @@ export async function onRequestPost({request, env}) {
     return json({ok:true, id, share_url:shareUrl, verification_status:'quarantined', crm_forwarded:false, formspree_forwarded:false}, 200, origin);
   }
 
-  await env.ONEDAY_KV.put('application:' + id, JSON.stringify({...commonRecord, status:'unverified'}), {expirationTtl: RETENTION_SECONDS});
+  await env.ONEDAY_KV.put('application:' + id, JSON.stringify({...commonRecord, status:'pending_manual_confirmation'}), {expirationTtl: RETENTION_SECONDS});
 
-  const formspreeId = env.FORMSPREE_ONEDAY || 'xkjjvzgk';
-  let formspreeOk = false;
-  if (formspreeId) {
-    try {
-      const result = await fetch('https://formspree.io/f/' + formspreeId, {
-        method:'POST', headers:{'Content-Type':'application/json', Accept:'application/json'},
-        body:JSON.stringify({
-          name, phone:phoneRaw, email, desired_date:desiredDate, motive, inflow_path:inflowPath, ref,
-          utm_source:utmSource, utm_medium:utmMedium, utm_campaign:utmCampaign, utm_content:utmContent,
-          landing_url:landingUrl, referrer, request_id:id, verification_status:'pending_email_or_phone_confirmation',
-          _subject:'[VARIS 원데이 미확인 신청] ' + name + ' / ' + desiredDate
-        })
-      });
-      formspreeOk = result.ok;
-    } catch {}
-  }
-
-  return json({ok:true, id, share_url:shareUrl, verification_status:'unverified', verification_required:true, crm_forwarded:false, formspree_forwarded:formspreeOk}, 200, origin);
+  // Do not forward unverified data. Email/SMS verification delivery must be configured before this gate is relaxed.
+  return json({ok:true, id, share_url:shareUrl, verification_status:'pending_manual_confirmation', verification_required:true, crm_forwarded:false, formspree_forwarded:false}, 200, origin);
 }
