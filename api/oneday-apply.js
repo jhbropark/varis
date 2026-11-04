@@ -4,11 +4,17 @@
 function json(res, status, body){
   res.statusCode = status;
   res.setHeader('Content-Type','application/json; charset=utf-8');
+  res.setHeader('X-Content-Type-Options','nosniff');
   res.setHeader('Cache-Control','no-store');
   res.end(JSON.stringify(body));
 }
 
 const RATE = new Map(); // ip -> timestamps (per-instance rate limit)
+const RECENT = new Map(); // normalized submission keys (per-instance dedupe)
+
+function allowedOrigin(origin){
+  return origin === 'https://varis.kr' || origin === 'https://www.varis.kr' || /^https:\/\/varis-[a-z0-9-]+\.vercel\.app$/i.test(origin || '');
+}
 function checkRate(req){
   const ip = (req.headers['x-forwarded-for']||req.headers['x-real-ip']||'').split(',')[0].trim() || req.socket?.remoteAddress || 'unknown';
   const now = Date.now();
@@ -26,7 +32,9 @@ function safe(v, max){
 }
 
 export default async function handler(req, res){
-  res.setHeader('Access-Control-Allow-Origin','https://varis.kr');
+  const origin = req.headers.origin || '';
+  if(!allowedOrigin(origin)) return json(res,403,{ok:false,reason:'origin_not_allowed'});
+  res.setHeader('Access-Control-Allow-Origin',origin);
   res.setHeader('Access-Control-Allow-Methods','POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers','Content-Type');
   if(req.method === 'OPTIONS') return json(res, 204, {});
@@ -40,6 +48,9 @@ export default async function handler(req, res){
     body = typeof req.body==='object' ? req.body : JSON.parse(req.body||'{}');
   }catch{ return json(res,400,{ok:false,reason:'invalid_json'}); }
   if(body.website || body.url || body.honeypot) return json(res,200,{ok:true, id:'honeypot', share_url:'https://varis.kr/oneday', crm_forwarded:false}); // honeypot
+  const startedAt = Number(body.form_started_at);
+  const elapsed = Date.now() - startedAt;
+  if(!Number.isFinite(startedAt) || elapsed < 1500 || elapsed > 86400000) return json(res,200,{ok:true,id:'screened',share_url:'https://varis.kr/oneday',crm_forwarded:false});
 
   const name = safe(body.name, 20);
   const phoneRaw = safe(body.phone, 20);
@@ -61,7 +72,12 @@ export default async function handler(req, res){
   if(!name || phone.length < 9) return json(res,400,{ok:false,reason:'missing_required'});
   if(!desired_date) return json(res,400,{ok:false,reason:'missing_date'});
   if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(res,400,{ok:false,reason:'invalid_email'});
-  if(!body.consent) return json(res,400,{ok:false,reason:'consent_required'});
+  if(body.consent !== true) return json(res,400,{ok:false,reason:'consent_required'});
+  const dedupeKey = [phone,email,desired_date].join('|');
+  const previous = RECENT.get(dedupeKey);
+  if(previous && Date.now() - previous < 86400000) return json(res,200,{ok:true,id:'duplicate',share_url:'https://varis.kr/oneday',crm_forwarded:false});
+  RECENT.set(dedupeKey,Date.now());
+  if(RECENT.size > 2000) RECENT.clear();
 
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7);
   const share_url = `https://varis.kr/oneday?applied=${encodeURIComponent(id)}&date=${encodeURIComponent(desired_date)}${ref?`&ref=${encodeURIComponent(ref)}`:''}`;
@@ -100,14 +116,33 @@ export default async function handler(req, res){
     }catch(e){ crmOk=false; }
   }
 
-  // Formspree 폴백 (기존 varis.kr과 동일 엔드포인트 사용 시)
-  const formspree = process.env.FORMSPREE_ONEDAY || process.env.FORMSPREE_ID;
-  if(!crmOk && formspree){
+  // 전용 Formspree 폼으로 항상 전달한다. 이 폼의 Workflow가 Slack #db-lead로 알림을 보낸다.
+  // 환경변수가 있으면 교체할 수 있지만, 기본값은 원데이 전용 폼이다.
+  const formspree = process.env.FORMSPREE_ONEDAY || 'xkjjvzgk';
+  let formspreeOk = false;
+  if(formspree){
     try{
-      await fetch(`https://formspree.io/f/${formspree}`,{
+      const fr = await fetch(`https://formspree.io/f/${formspree}`,{
         method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({name, phone:phoneRaw, email, desired_date, motive, ref, utm_source, utm_campaign, landing_url, _subject:`[VARIS 원데이] ${name} / ${desired_date} ${ref?'ref:'+ref:''}`})
+        body: JSON.stringify({
+          name,
+          phone: phoneRaw,
+          email,
+          desired_date,
+          motive,
+          inflow_path,
+          ref,
+          utm_source,
+          utm_medium,
+          utm_campaign,
+          utm_content,
+          landing_url,
+          referrer,
+          _subject:`[VARIS 원데이 신청] ${name} / ${desired_date}`,
+          _gotcha:''
+        })
       });
+      formspreeOk = fr.ok;
     }catch{}
   }
 
