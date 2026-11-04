@@ -156,6 +156,7 @@ h2 em{font-style:normal;color:var(--accent)}
         <input type="hidden" name="landing_url" id="f_landing" />
         <input type="hidden" name="referrer" id="f_referrer" />
         <input type="text" name="website" id="f_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;height:0" aria-hidden="true" />
+        <input type="hidden" name="form_started_at" id="f_started" />
 
         <div class="field">
           <label for="f_name">이름 <span>*</span></label>
@@ -244,7 +245,7 @@ try{
 }catch(e){}
 
 // 현재 링크 표시
-const base = 'https://varis.kr/oneday';
+const base = 'https://varis.kr/oneday'; const formStartedAt = Date.now(); const startedField = document.getElementById('f_started'); if(startedField) startedField.value = String(formStartedAt);
 const sharedDate = params.get('date');
 if(sharedDate && EVENT_DATES.some(e=>e.date===sharedDate)){ const linkTitle=document.querySelector('#linkBox b'); if(linkTitle) linkTitle.textContent='신청 링크 · '+eventLabel(sharedDate,'date'); }
 const current = location.href;
@@ -290,7 +291,7 @@ form.addEventListener('submit', async (e)=>{
     utm_content: $('#f_utm_content').value,
     landing_url: $('#f_landing').value,
     referrer: $('#f_referrer').value,
-    consent: true
+    consent: true, website: $('#f_hp').value.trim(), form_started_at: $('#f_started').value
   };
   if(!data.name || !data.phone || !data.desired_date){ notify(msg,'이름·연락처·희망 일정을 확인해 주세요.', false); return; }
   if(data.phone.replace(/\D/g,'').length < 9){ notify(msg,'연락처를 확인해 주세요.', false); return; }
