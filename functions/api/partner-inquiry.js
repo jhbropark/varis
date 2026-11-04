@@ -31,7 +31,7 @@ function allowed(ip) {
 }
 
 async function sendFormspree(payload, env) {
-  const formspreeId = env.FORMSPREE_PARTNER || env.FORMSPREE_ID || 'mvznljpl';
+  const formspreeId = env.FORMSPREE_PARTNER || 'xbggqarg';
   try {
     const response = await fetch('https://formspree.io/f/' + formspreeId, {
       method: 'POST',
