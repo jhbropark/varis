@@ -78,6 +78,7 @@ h2 em{font-style:normal;color:var(--accent)}
 .staff{margin-top:22px;background:var(--band);border:1px dashed var(--line);border-radius:12px;padding:16px}
 .staff h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-family:var(--mono);margin-bottom:10px}
 </style>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <header class="site">
@@ -159,6 +160,8 @@ h2 em{font-style:normal;color:var(--accent)}
         <input type="hidden" name="referrer" id="f_referrer" />
         <input type="text" name="website" id="f_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;height:0" aria-hidden="true" />
         <input type="hidden" name="form_started_at" id="f_started" />
+        <input type="hidden" name="form_token" id="f_token" />
+        <input type="hidden" name="turnstile_token" id="f_turnstile" />
 
         <div class="field">
           <label for="f_name">이름 <span>*</span></label>
@@ -198,8 +201,12 @@ h2 em{font-style:normal;color:var(--accent)}
           <label for="f_consent">개인정보 수집·이용에 동의합니다. (원데이 세미나 안내 및 참가 확인 목적, 행사 후 30일 보관 후 파기) — <a href="/privacy/" target="_blank" style="text-decoration:underline">처리방침 보기</a></label>
         </div>
 
+        <div class="turnstile-wrap" style="margin:14px 0;display:flex;justify-content:center" aria-label="보안 확인">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAFy-lhq_cOdsknIr" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
+        </div>
+
         <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;padding:14px" id="submitBtn">신청 링크로 접수하기</button>
-        <p class="hint" style="text-align:center;margin-top:10px">제출하면 신청이 CRM에 자동 저장되고, 확인 이메일/문자를 보내드립니다.</p>
+        <p class="hint" style="text-align:center;margin-top:10px">제출 후 이메일 또는 전화 확인 전에는 상담 신청으로 확정되지 않습니다.</p>
         <div id="formMsg" class="notice" style="display:none"></div>
       </form>
 
@@ -267,7 +274,11 @@ try{
 }catch(e){}
 
 // 현재 링크 표시
-const base = 'https://varis.kr/oneday'; const formStartedAt = Date.now(); const startedField = document.getElementById('f_started'); if(startedField) startedField.value = String(formStartedAt);
+const base = 'https://varis.kr/oneday'; const formStartedAt = Date.now(); const startedField = document.getElementById('f_started'); const tokenField = document.getElementById('f_token'); const turnstileField = document.getElementById('f_turnstile'); if(startedField) startedField.value = String(formStartedAt);
+async function refreshFormToken(){ try{ const r=await fetch('/api/oneday-token',{cache:'no-store'}); const j=await r.json(); if(!j.ok) throw new Error('token'); tokenField.value=j.token; startedField.value=String(Date.now()); }catch(e){ tokenField.value=''; } }
+window.onTurnstileSuccess=(token)=>{ turnstileField.value=token; };
+window.onTurnstileExpired=()=>{ turnstileField.value=''; };
+refreshFormToken();
 const sharedDate = params.get('date');
 if(sharedDate && EVENT_DATES.some(e=>e.date===sharedDate)){ const linkTitle=document.querySelector('#linkBox b'); if(linkTitle) linkTitle.textContent='신청 링크 · '+eventLabel(sharedDate,'date'); }
 const current = location.href;
@@ -319,6 +330,7 @@ form.addEventListener('submit', async (e)=>{
   const btn=$('#submitBtn');
   const msg=$('#formMsg');
   if(!$('#f_consent').checked){ notify(msg,'개인정보 동의가 필요합니다.', false); return; }
+  if(!$('#f_token').value || !$('#f_turnstile').value){ notify(msg,'보안 확인이 완료될 때까지 잠시 기다려 주세요.', false); return; }
   const data={
     name: $('#f_name').value.trim(),
     phone: $('#f_phone').value.trim(),
@@ -333,7 +345,7 @@ form.addEventListener('submit', async (e)=>{
     utm_content: $('#f_utm_content').value,
     landing_url: $('#f_landing').value,
     referrer: $('#f_referrer').value,
-    consent: true, website: $('#f_hp').value.trim(), form_started_at: $('#f_started').value
+    consent: true, website: $('#f_hp').value.trim(), form_started_at: $('#f_started').value, form_token: $('#f_token').value, turnstile_token: $('#f_turnstile').value
   };
   if(!data.name || !data.phone || !data.desired_date){ notify(msg,'이름·연락처·희망 일정을 확인해 주세요.', false); return; }
   if(data.phone.replace(/\D/g,'').length < 9){ notify(msg,'연락처를 확인해 주세요.', false); return; }
@@ -344,11 +356,13 @@ form.addEventListener('submit', async (e)=>{
     const j=await r.json().catch(()=>({}));
     if(!r.ok || !j.ok){ throw new Error(j.reason || '신청에 실패했습니다. 잠시 후 다시 시도해 주세요.'); }
     const share = j.share_url || base + '?applied=' + (j.id||'');
-    notify(msg, '신청이 접수되었습니다! 확인 링크: '+ share + ' — 이 링크를 지인에게 공유할 수 있습니다. 문자/이메일로도 안내를 보내드립니다.', true);
+    notify(msg, '신청이 접수되었습니다. 이메일 또는 전화 확인 전에는 상담 신청으로 확정되지 않습니다. 확인 링크: '+ share, true);
     // 링크 박스 갱신
     $('#linkInput').value = share;
     $('#currentLink').textContent = share;
     form.reset();
+    if(window.turnstile) window.turnstile.reset();
+    refreshFormToken();
     // ref 유지
     $('#f_ref').value = ref;
   }catch(err){
