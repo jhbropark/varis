@@ -2,6 +2,7 @@
 // CRM intake 전달 + Formspree 폴백. Secrets는 Pages 환경변수에서 읽는다.
 
 const RATE = new Map();
+const RECENT = new Map();
 const ALLOWED_DATES = new Set(['2026-11-29', '2026-12-13']);
 
 function safe(value, max) {
@@ -11,13 +12,14 @@ function safe(value, max) {
 }
 
 function allowedOrigin(origin) {
-  return origin === 'https://varis.kr' || origin === 'https://www.varis.kr' || /^https:\/\/[a-z0-9-]+\.pages\.dev$/i.test(origin || '');
+  return origin === 'https://varis.kr' || origin === 'https://www.varis.kr' || origin === 'https://varis-main.pages.dev' || origin === 'https://varis-ebon.vercel.app';
 }
 
 function response(body, status, origin) {
   const headers = new Headers({
     'Content-Type': 'application/json; charset=utf-8',
     'Cache-Control': 'no-store',
+    'X-Content-Type-Options': 'nosniff',
   });
   if (allowedOrigin(origin)) {
     headers.set('Access-Control-Allow-Origin', origin);
@@ -47,6 +49,7 @@ export async function onRequestOptions({ request }) {
 
 export async function onRequestPost({ request, env }) {
   const origin = request.headers.get('Origin') || '';
+  if (!allowedOrigin(origin)) return response({ ok: false, reason: 'origin_not_allowed' }, 403, origin);
   if (!checkRate(request)) return response({ ok: false, reason: 'rate_limited' }, 429, origin);
 
   let body = {};
@@ -59,6 +62,9 @@ export async function onRequestPost({ request, env }) {
   if (body.website || body.url || body.honeypot) {
     return response({ ok: true, id: 'honeypot', share_url: 'https://varis.kr/oneday', crm_forwarded: false }, 200, origin);
   }
+  const startedAt = Number(body.form_started_at);
+  const elapsed = Date.now() - startedAt;
+  if (!Number.isFinite(startedAt) || elapsed < 1500 || elapsed > 86400000) return response({ ok: true, id: 'screened', share_url: 'https://varis.kr/oneday', crm_forwarded: false }, 200, origin);
 
   const name = safe(body.name, 20);
   const phoneRaw = safe(body.phone, 20);
@@ -78,7 +84,12 @@ export async function onRequestPost({ request, env }) {
   if (!name || phone.length < 9) return response({ ok: false, reason: 'missing_required' }, 400, origin);
   if (!ALLOWED_DATES.has(desiredDate)) return response({ ok: false, reason: 'invalid_date' }, 400, origin);
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return response({ ok: false, reason: 'invalid_email' }, 400, origin);
-  if (!body.consent) return response({ ok: false, reason: 'consent_required' }, 400, origin);
+  if (body.consent !== true) return response({ ok: false, reason: 'consent_required' }, 400, origin);
+  const dedupeKey = [phone, email, desiredDate].join('|');
+  const previous = RECENT.get(dedupeKey);
+  if (previous && Date.now() - previous < 86400000) return response({ ok: true, id: 'duplicate', share_url: 'https://varis.kr/oneday', crm_forwarded: false }, 200, origin);
+  RECENT.set(dedupeKey, Date.now());
+  if (RECENT.size > 2000) RECENT.clear();
 
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   const shareUrl = 'https://varis.kr/oneday?applied=' + encodeURIComponent(id) + '&date=' + encodeURIComponent(desiredDate) + (ref ? '&ref=' + encodeURIComponent(ref) : '');
@@ -111,7 +122,7 @@ export async function onRequestPost({ request, env }) {
     try {
       const result = await fetch('https://formspree.io/f/' + formspreeId, {
         method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ name, phone: phoneRaw, email, desired_date: desiredDate, motive, inflow_path: inflowPath, ref, utm_source: utmSource, utm_medium: utmMedium, utm_campaign: utmCampaign, utm_content: utmContent, landing_url: landingUrl, referrer, _subject: '[VARIS 원데이 신청] ' + name + ' / ' + desiredDate }),
+        body: JSON.stringify({ name, phone: phoneRaw, email, desired_date: desiredDate, motive, inflow_path: inflowPath, ref, utm_source: utmSource, utm_medium: utmMedium, utm_campaign: utmCampaign, utm_content: utmContent, landing_url: landingUrl, referrer, _subject: '[VARIS 원데이 신청] ' + name + ' / ' + desiredDate, _gotcha: '' }),
       });
       formspreeOk = result.ok;
     } catch { formspreeOk = false; }
