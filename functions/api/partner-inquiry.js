@@ -70,6 +70,7 @@ export async function onRequest(context) {
   const organization = safe(body.organization, 120);
   const email = safe(body.email, 120).toLowerCase();
   const country = safe(body.country, 80);
+  const market = safe(body.market, 40);
   const org_type = safe(body.org_type, 40);
   const interest = safe(body.interest, 40);
   const model = safe(body.model, 40);
@@ -81,8 +82,11 @@ export async function onRequest(context) {
   const utm_content = safe(body.utm_content, 80);
   const landing_url = safe(body.landing_url, 500);
   const referrer = safe(body.referrer, 500);
+  const attribution_first_touch = safe(body.attribution_first_touch, 1600);
+  const attribution_last_touch = safe(body.attribution_last_touch, 1600);
+  const event_name = safe(body.event_name, 80);
 
-  if (!name || !organization || !email || !country || !org_type) {
+  if (!name || !organization || !email || !country || !org_type || !market) {
     return json({ ok: false, reason: 'missing_required' }, 400, origin);
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -93,7 +97,7 @@ export async function onRequest(context) {
   }
 
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-  const source = 'partners:' + (ref || utm_source || 'direct');
+  const source = 'partners:' + market + ':' + (ref || utm_source || 'direct');
   const crmPayload = {
     contact_type: 'email',
     contact: email,
@@ -101,6 +105,9 @@ export async function onRequest(context) {
     name,
     organization,
     country,
+    market,
+    event_name: event_name || 'partner_inquiry_submitted',
+    attribution: { first_touch: attribution_first_touch, last_touch: attribution_last_touch },
     course_id: 'partner-inquiry',
     course_label: 'VARIS Partner Inquiry',
     source,
@@ -115,7 +122,7 @@ export async function onRequest(context) {
     message,
     goal: model || interest || 'partnership discussion',
     qa: false,
-    note: '조직 유형: ' + org_type + '\n관심 모듈: ' + (interest || '-') + '\n파트너십 모델: ' + (model || '-') + '\n유입: ' + source + '\nref: ' + (ref || '-') + '\nutm: ' + [utm_source, utm_medium, utm_campaign, utm_content].filter(Boolean).join('/') + '\nlanding: ' + landing_url + '\nreferrer: ' + referrer,
+    note: '조직 유형: ' + org_type + '\n관심 모듈: ' + (interest || '-') + '\n파트너십 모델: ' + (model || '-') + '\n유입: ' + source + '\nref: ' + (ref || '-') + '\nutm: ' + [utm_source, utm_medium, utm_campaign, utm_content].filter(Boolean).join('/') + '\nlanding: ' + landing_url + '\nreferrer: ' + referrer + '\nfirst_touch: ' + attribution_first_touch + '\nlast_touch: ' + attribution_last_touch + '\nevent: ' + (event_name || 'partner_inquiry_submitted'),
     request_id: id,
   };
 
