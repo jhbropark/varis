@@ -1,3 +1,5 @@
+import {sendBrevoTransactional} from '../_brevo.js';
+
 const ALLOWED_DATES = new Set(['2026-11-29', '2026-12-13']);
 const ALLOWED_ORIGINS = new Set(['https://varis.kr', 'https://www.varis.kr']);
 const WINDOW_SECONDS = 60;
@@ -74,6 +76,22 @@ async function incrementWindow(env, key, limit, ttl) {
 
 function emailDomain(email) {
   return email.split('@')[1] || '';
+}
+
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>\"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[char]));
+}
+
+function buildConfirmationEmail({name, desiredDate, id, shareUrl}) {
+  const safeName = escapeHtml(name);
+  const safeDate = escapeHtml(desiredDate);
+  const safeId = escapeHtml(id);
+  const safeShareUrl = escapeHtml(shareUrl);
+  return {
+    subject: `[VARIS] 원데이 세미나 신청 접수 안내 (${desiredDate})`,
+    textContent: `${name}님, VARIS 원데이 세미나 신청이 접수되었습니다.\n\n희망일: ${desiredDate}\n신청 번호: ${id}\n\n현재 상태는 운영자 확인 대기입니다. 일정과 참석 방법은 확인 후 별도로 안내드립니다.\n신청 확인 링크: ${shareUrl}\n\nVARIS`,
+    htmlContent: `<div style="font-family:Arial,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.7;color:#171717;max-width:600px;margin:0 auto"><h2 style="margin:0 0 20px">원데이 세미나 신청 접수</h2><p>${safeName}님, 신청이 접수되었습니다.</p><p><strong>희망일:</strong> ${safeDate}<br><strong>신청 번호:</strong> ${safeId}</p><p>현재 상태는 운영자 확인 대기입니다. 일정과 참석 방법은 확인 후 별도로 안내드립니다.</p><p><a href="${safeShareUrl}" style="color:#d35400">신청 확인 링크 열기</a></p><p style="color:#666;font-size:13px">VARIS</p></div>`,
+  };
 }
 
 function looksRandom(value) {
@@ -200,8 +218,28 @@ export async function onRequestPost({request, env}) {
     return json({ok:true, id, share_url:shareUrl, verification_status:'quarantined', crm_forwarded:false, formspree_forwarded:false}, 200, origin);
   }
 
-  await env.ONEDAY_KV.put('application:' + id, JSON.stringify({...commonRecord, status:'pending_manual_confirmation'}), {expirationTtl: RETENTION_SECONDS});
+  const applicationKey = 'application:' + id;
+  const baseApplication = {...commonRecord, status:'pending_manual_confirmation', email_delivery:{requested:Boolean(email), status:email ? 'queued' : 'not_requested'}};
+  await env.ONEDAY_KV.put(applicationKey, JSON.stringify(baseApplication), {expirationTtl: RETENTION_SECONDS});
 
-  // Do not forward unverified data. Email/SMS verification delivery must be configured before this gate is relaxed.
-  return json({ok:true, id, share_url:shareUrl, verification_status:'pending_manual_confirmation', verification_required:true, crm_forwarded:false, formspree_forwarded:false}, 200, origin);
+  // This is a receipt, not identity verification. The manual-confirmation gate remains active.
+  let emailDelivery = baseApplication.email_delivery;
+  if (email) {
+    const content = buildConfirmationEmail({name, desiredDate, id, shareUrl});
+    const delivery = await sendBrevoTransactional(env, {
+      to: email,
+      ...content,
+      tags: ['oneday', 'application-receipt'],
+    });
+    emailDelivery = {
+      requested: true,
+      status: delivery.status,
+      ...(delivery.reason ? {reason: delivery.reason} : {}),
+      ...(delivery.message_id ? {message_id: delivery.message_id} : {}),
+      ...(delivery.ok ? {sent_at:new Date().toISOString()} : {}),
+    };
+    await env.ONEDAY_KV.put(applicationKey, JSON.stringify({...baseApplication, email_delivery:emailDelivery}), {expirationTtl: RETENTION_SECONDS});
+  }
+
+  return json({ok:true, id, share_url:shareUrl, verification_status:'pending_manual_confirmation', verification_required:true, confirmation_email:email ? (emailDelivery.status === 'sent' ? 'sent' : 'pending') : 'not_requested', crm_forwarded:false, formspree_forwarded:false}, 200, origin);
 }
