@@ -35,7 +35,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0e0e10;--surface:#18181b;--surface-2:#202024;--border:#2b2b30;--text:#fafafa;--muted:#a1a1aa;--accent:#e9a23c;--accent-deep:#b97a1e;--sans:'Pretendard','Pretendard Variable','Inter','Apple SD Gothic Neo',system-ui,-apple-system,sans-serif}
 html{font-size:16px;scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;word-break:keep-all;overflow-wrap:break-word}
+h1,h2,h3,h4,p,li,dt,dd{word-break:keep-all;text-wrap:pretty}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .container{width:min(100% - 40px,980px);margin:0 auto}
 header{padding:22px 0;border-bottom:1px solid var(--border)}
