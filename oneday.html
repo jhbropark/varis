@@ -361,3 +361,14 @@ form.addEventListener('submit', async (e)=>{
 </script>
 </body>
 </html>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FFGE099JDE"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+gtag('config','G-FFGE099JDE',{send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false});
+gtag('event','page_view',{page_location:location.href,page_path:location.pathname,page_title:document.title,tracking_domain:location.hostname});
+window.varisTrack=function(name,params){try{gtag('event',name,Object.assign({tracking_domain:location.hostname,page_path:location.pathname},params||{}));}catch(e){}};
+</script>
