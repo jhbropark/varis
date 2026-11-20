@@ -17,6 +17,16 @@
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FFGE099JDE"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+gtag('config','G-FFGE099JDE',{send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false});
+gtag('event','page_view',{page_location:location.href,page_path:location.pathname,page_title:document.title,tracking_domain:location.hostname});
+window.varisTrack=function(name,params){try{gtag('event',name,Object.assign({tracking_domain:location.hostname,page_path:location.pathname},params||{}));}catch(e){}};
+</script>
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -1521,6 +1531,28 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
       })
       .finally(function(){ btn.disabled=false; btn.textContent=orig; });
   });
+})();
+</script>
+<script>
+(function(){
+  if(!window.varisTrack)return;
+  var finderStarted=false, finderCompleted=false, leadSent=false;
+  document.addEventListener('click',function(e){
+    var el=e.target&&e.target.closest?e.target.closest('a,button'):null;
+    if(!el)return;
+    if(el.matches('.finder .opt')&&!finderStarted){finderStarted=true;window.varisTrack('course_finder_start');}
+    if(el.matches('.finder-consult,a[href="#apply"]'))window.varisTrack('course_apply_click',{course_id:el.getAttribute('data-course-id')||undefined});
+    if(el.matches('[data-pay]'))window.varisTrack('begin_checkout',{product_id:el.getAttribute('data-pay')||undefined});
+    if(el.matches('a[href*="kakao"]'))window.varisTrack('kakao_click');
+  });
+  var finder=document.getElementById('finder');
+  if(finder&&window.MutationObserver)new MutationObserver(function(){
+    if(!finderCompleted&&finder.querySelector('.result')){finderCompleted=true;window.varisTrack('course_finder_complete');}
+  }).observe(finder,{subtree:true,childList:true});
+  var msg=document.getElementById('formMsg');
+  if(msg&&window.MutationObserver)new MutationObserver(function(){
+    if(!leadSent&&msg.classList.contains('ok')){leadSent=true;window.varisTrack('generate_lead',{form_name:'course_apply'});}
+  }).observe(msg,{subtree:true,childList:true,attributes:true});
 })();
 </script>
 </body>
