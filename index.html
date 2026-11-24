@@ -22,10 +22,11 @@
 window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
 gtag('js',new Date());
-gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
 gtag('config','G-FFGE099JDE',{send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false});
-gtag('event','page_view',{page_location:location.href,page_path:location.pathname,page_title:document.title,tracking_domain:location.hostname});
-window.varisTrack=function(name,params){try{gtag('event',name,Object.assign({tracking_domain:location.hostname,page_path:location.pathname},params||{}));}catch(e){}};
+window.varisAnalyticsAllowed=false;
+try{window.varisAnalyticsAllowed=localStorage.getItem('varis_analytics_consent_v1')==='granted';}catch(e){}
+window.varisTrack=function(name,params){if(!window.varisAnalyticsAllowed)return;try{gtag('event',name,Object.assign({tracking_domain:location.hostname,page_path:location.pathname},params||{}));}catch(e){}};
 </script>
 <script type="application/ld+json">
 {
@@ -1186,6 +1187,7 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
         <h3>수강 · 상담 신청</h3>
          <p class="form-note">연락처만 남겨도 됩니다. 영업일 기준 1일 내 전화 또는 이메일로 답변드립니다.</p>
         <input type="hidden" name="_subject" value="[VARIS 원페이지] 새 상담 신청" />
+        <input type="hidden" name="lead_id" id="f_lead_id" />
         <input type="hidden" name="유입경로" id="f_source" />
         <input type="hidden" name="유입매체" id="f_medium" />
         <input type="hidden" name="캠페인" id="f_campaign" />
@@ -1516,7 +1518,8 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
   if(!form) return;
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var btn=form.querySelector('button[type=submit]'), orig=btn.textContent;
+    var btn=form.querySelector('button[type=submit]'), orig=btn.textContent, leadId='varis-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
+    var leadField=document.getElementById('f_lead_id'); if(leadField) leadField.value=leadId; window.__varisLeadId=leadId;
     btn.disabled=true; btn.textContent='전송 중…'; msg.textContent=''; msg.className='fmsg';
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
       .then(function(r){
@@ -1551,13 +1554,21 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 32px;background:var(
   }).observe(finder,{subtree:true,childList:true});
   var msg=document.getElementById('formMsg');
   if(msg&&window.MutationObserver)new MutationObserver(function(){
-    if(!leadSent&&msg.classList.contains('ok')){leadSent=true;window.varisTrack('generate_lead',{form_name:'course_apply'});}
+    if(!leadSent&&msg.classList.contains('ok')){leadSent=true;window.varisTrack('generate_lead',{form_name:'course_apply',lead_id:window.__varisLeadId||undefined});}
   }).observe(msg,{subtree:true,childList:true,attributes:true});
+})();
+</script>
+<div id="varisConsent" role="dialog" aria-live="polite" aria-label="분석 쿠키 동의" hidden style="position:fixed;z-index:9999;left:16px;right:16px;bottom:16px;max-width:680px;margin:auto;padding:16px 18px;background:#111;color:#fff;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.24);font:14px/1.5 system-ui,sans-serif"><div style="font-weight:700;margin-bottom:5px">사이트 이용 분석 안내</div><div style="opacity:.86;margin-bottom:12px">서비스 개선을 위해 익명 방문 통계를 측정합니다. 허용하지 않아도 사이트 이용에는 제한이 없습니다.</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" data-varis-consent="deny" style="padding:8px 12px;border:1px solid #777;border-radius:8px;background:transparent;color:#fff">거부</button><button type="button" data-varis-consent="grant" style="padding:8px 12px;border:0;border-radius:8px;background:#fff;color:#111;font-weight:700">허용</button></div></div>
+<script>
+(function(){
+  var KEY='varis_analytics_consent_v1', banner=document.getElementById('varisConsent');
+  function pageView(){if(!window.varisAnalyticsAllowed)return;try{gtag('event','page_view',{page_location:location.href,page_path:location.pathname,page_title:document.title,tracking_domain:location.hostname});}catch(e){}}
+  function apply(choice){var granted=choice==='granted'; try{localStorage.setItem(KEY,choice);}catch(e){} window.varisAnalyticsAllowed=granted; gtag('consent','update',{analytics_storage:granted?'granted':'denied'}); if(granted)pageView(); if(banner)banner.hidden=true;}
+  var saved=null; try{saved=localStorage.getItem(KEY);}catch(e){}
+  if(saved==='granted'||saved==='denied')apply(saved); else if(banner)banner.hidden=false;
+  if(banner)banner.addEventListener('click',function(e){var b=e.target.closest('[data-varis-consent]'); if(b)apply(b.getAttribute('data-varis-consent')==='grant'?'granted':'denied');});
 })();
 </script>
 </body>
 </html>
 
-
-In 1 day
-<script defer src="/analytics-lead.js"></script>
