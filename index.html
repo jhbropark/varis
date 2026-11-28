@@ -28,7 +28,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 gtag('config','G-FFGE099JDE',{send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false});
 window.varisAnalyticsAllowed=false;
 try{window.varisAnalyticsAllowed=localStorage.getItem('varis_analytics_consent_v1')==='granted';}catch(e){}
-window.varisTrack=function(name,params){if(!window.varisAnalyticsAllowed)return;try{gtag('event',name,Object.assign({tracking_domain:location.hostname,page_path:location.pathname},params||{}));}catch(e){}};
+window.varisTrack=function(name,params){if(!window.varisAnalyticsAllowed)return;try{var defaults={tracking_domain:location.hostname,page_path:location.pathname};if(name==='course_apply_click'){defaults.lead_source='varis.kr';defaults.lead_type='course_application';defaults.conversion_stage='intent_click';}if(name==='generate_lead'){defaults.lead_source='varis.kr';defaults.lead_type='course_application';defaults.conversion_stage='lead_accepted';}gtag('event',name,Object.assign(defaults,params||{}));}catch(e){}};
 </script>
 <script type="application/ld+json">
 {
